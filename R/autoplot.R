@@ -40,15 +40,16 @@ autoplot.tv_fevd <- function(object, ...) {
 autoplot.tv_irf <- function(object, ...) {
 
   object |>
+    dplyr::mutate(label = paste0(.impulse, " -> ", .asset)) |>
     ggplot2::ggplot(ggplot2::aes(x = rowid, y = .irf, color = .asset)) +
     ggplot2::geom_line() +
     ggplot2::geom_line(ggplot2::aes(y = .lower), linetype = 2) +
     ggplot2::geom_line(ggplot2::aes(y = .upper), linetype = 2) +
     ggplot2::geom_hline(yintercept = 0, color = "grey", linetype = 1, size = 1) +
     #ggplot2::scale_y_continuous(labels = scales::percent_format(accuracy = 0.01)) +
-    ggplot2::facet_wrap(.impulse ~ .asset, scales = "free_y") +
+    ggplot2::facet_wrap(facets = . ~ label, scales = "free_y") +
     ggplot2::labs(title    = "Impulse-Response Funcions",
-                  subtitle = "Impulse (above) --> Response (bellow)",
+                  subtitle = "Impulse -> Response",
                   x        = "Periods Ahead",
                   y        = "Impulse-Responses"
     ) +
