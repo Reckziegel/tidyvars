@@ -2,7 +2,7 @@
 #'
 #' Tidyier for the `varest` class.
 #'
-#' @param .x An object of the `varest` class.
+#' @param x An object of the `varest` class.
 #' @param ... Additional objects to be pass through.
 #'
 #' @return A \code{tibble}.
@@ -10,26 +10,28 @@
 #'
 #' @examples
 #' model <- vars::VAR(EuStockMarkets)
-#' tidy_predict(model)
-tidy_predict <- function(x, ...) UseMethod("tidy_predict", x)
+#' tv_predict(model)
+tv_predict <- function(x, ...) UseMethod("tv_predict", x)
 
-#' @rdname tidy_predict
+#' @rdname tv_predict
 #' @export
-tidy_predict.default <- function(x, ...) {
-  rlang::abort(message = paste0("No `tidy_predict` method for objects of class", class(x), "."))
+tv_predict.default <- function(x, ...) {
+  rlang::abort(message = paste0("No `tv_predict` method for objects of class", class(x), "."))
 }
 
-#' @rdname tidy_predict
+#' @rdname tv_predict
 #' @export
-tidy_predict.varest <- function(x, ...) {
+tv_predict.varest <- function(x, ...) {
 
   pred <- stats::predict(x, ...)
 
-  purrr::map(pred$fcst, tibble::as_tibble) |>
+  .out <- purrr::map(pred$fcst, tibble::as_tibble) |>
     purrr::map(tibble::rowid_to_column) |>
     tibble::enframe(name = ".asset") |>
     tidyr::unnest(cols = value) |>
     dplyr::relocate(rowid, .asset, dplyr::everything())
+
+  tibble::new_tibble(x = .out, nrow = NROW(.out), class = "tv_predict", .data = pred$endog)
 
 }
 

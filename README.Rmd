@@ -1,0 +1,81 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# tidyvars
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+`tidyvars` extend tidiers for VAR modelling in R.
+
+## Installation
+
+You can install the development version of `tidyvars` like so:
+
+``` r
+# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+```
+
+## Tidy Tibbles
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+library(tidyvars)
+library(ggplot2)
+
+mod <- vars::VAR(EuStockMarkets, p = 2)
+
+# tidy tibbles
+tv_tidy(mod)
+
+# glance
+tv_glance(mod)
+
+# augment
+tv_augment(mod)
+
+# tidy model checking (normlity test)
+tv_normality_test(mod)
+
+# tidy model checking (arch effects)
+tv_serial_test(mod)
+
+# tidy causality test
+tv_causality(mod)
+
+# tidy prediction
+tv_predict(mod)
+
+# tidy FEVD
+tv_fevd(mod)
+
+# tidy IRF
+tv_irf(mod)
+```
+
+## Plotting
+
+```{r, warning=FALSE}
+# autoplot method for IRF
+autoplot(tv_irf(mod))
+
+# autoplot method for IRF
+autoplot(tv_fevd(mod))
+
+# autoplot method for predict
+autoplot(tv_predict(mod, n.ahead = 12))
+```
+
