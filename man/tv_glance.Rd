@@ -4,10 +4,10 @@
 \alias{tv_glance}
 \title{Glance a VAR model}
 \usage{
-tv_glance(.x, ...)
+tv_glance(x, ...)
 }
 \arguments{
-\item{.x}{An object of the `varest` class.}
+\item{x}{An object of the `varest` class.}
 
 \item{...}{Additional objects to be pass through.}
 }
@@ -15,7 +15,7 @@ tv_glance(.x, ...)
 A \code{tibble}.
 }
 \description{
-Tidyier for the `varest` class.
+Tidier for the \code{varest} class.
 }
 \examples{
 model <- vars::VAR(EuStockMarkets)

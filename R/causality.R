@@ -1,8 +1,8 @@
-#' Tidy IRF for a VAR Model
+#' Tidy Causality Test
 #'
-#' Tidyier for the `varest` class.
+#' Tidier for the \code{varest} class.
 #'
-#' @param x An object of the `varest` class.
+#' @param x An object of the \code{varest} class.
 #' @param ... Additional objects to be pass through.
 #'
 #' @return A \code{tibble}.

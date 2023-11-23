@@ -6,7 +6,7 @@
 \alias{tv_irf.varest}
 \alias{tv_irf.vec2var}
 \alias{tv_irf.svarest}
-\title{Tidy IRF for a VAR Model}
+\title{Tidy Impulse-Response Function}
 \usage{
 tv_irf(x, ...)
 
@@ -19,7 +19,7 @@ tv_irf(x, ...)
 \method{tv_irf}{svarest}(x, ...)
 }
 \arguments{
-\item{x}{An object of the `varest` class.}
+\item{x}{An object of the \code{varest}, \code{vec2var} and \code{svarest} class.}
 
 \item{...}{Additional objects to be pass through.}
 }
@@ -27,7 +27,7 @@ tv_irf(x, ...)
 A \code{tibble}.
 }
 \description{
-Tidyier for the `varest` class.
+Tidier for the \code{varest}, \code{vec2var} and \code{svarest} class.
 }
 \examples{
 model <- vars::VAR(EuStockMarkets)

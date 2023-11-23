@@ -1,8 +1,8 @@
-#' Tidy IRF for a VAR Model
+#' Tidy Normality Test
 #'
-#' Tidyier for the `varest` class.
+#' Tidier for the \code{varest} and \code{vec2var} class.
 #'
-#' @param x An object of the `varest` class.
+#' @param x An object of the \code{varest} and \code{vec2var} class.
 #' @param ... Additional objects to be pass through.
 #'
 #' @return A \code{tibble}.

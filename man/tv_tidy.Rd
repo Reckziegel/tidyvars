@@ -4,19 +4,16 @@
 \alias{tv_tidy}
 \alias{tv_tidy.default}
 \alias{tv_tidy.varest}
-\alias{tv_tidy.vec2var}
-\title{Tidy a VAR model}
+\title{Tidy a VAR Model}
 \usage{
 tv_tidy(x, ...)
 
 \method{tv_tidy}{default}(x, ...)
 
 \method{tv_tidy}{varest}(x, ...)
-
-\method{tv_tidy}{vec2var}(x, ...)
 }
 \arguments{
-\item{x}{An object of the `varest` class.}
+\item{x}{An object of the \code{varest} class.}
 
 \item{...}{Additional objects to be pass through.}
 }
@@ -24,7 +21,7 @@ tv_tidy(x, ...)
 A \code{tibble}.
 }
 \description{
-Tidyier for the `varest` class.
+Tidier for the \code{varest} and class.
 }
 \examples{
 model <- vars::VAR(EuStockMarkets)

@@ -5,7 +5,7 @@
 \alias{tv_normality_test.default}
 \alias{tv_normality_test.varest}
 \alias{tv_normality_test.vec2var}
-\title{Tidy IRF for a VAR Model}
+\title{Tidy Normality Test}
 \usage{
 tv_normality_test(x, ...)
 
@@ -16,7 +16,7 @@ tv_normality_test(x, ...)
 \method{tv_normality_test}{vec2var}(x, ...)
 }
 \arguments{
-\item{x}{An object of the `varest` class.}
+\item{x}{An object of the \code{varest} and \code{vec2var} class.}
 
 \item{...}{Additional objects to be pass through.}
 }
@@ -24,7 +24,7 @@ tv_normality_test(x, ...)
 A \code{tibble}.
 }
 \description{
-Tidyier for the `varest` class.
+Tidier for the \code{varest} and \code{vec2var} class.
 }
 \examples{
 model <- vars::VAR(EuStockMarkets)

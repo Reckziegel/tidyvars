@@ -4,9 +4,9 @@
 
 #' Augment a VAR model
 #'
-#' Augment for the `varest` class.
+#' Augment for the \code{varest} and \code{vec2var} class.
 #'
-#' @param x An object of the `varest` class.
+#' @param x An object of the \code{varest} and \code{vec2var} class.
 #' @param ... Additional objects to be pass through.
 #'
 #' @return A \code{tibble}.

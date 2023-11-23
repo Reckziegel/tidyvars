@@ -52,8 +52,8 @@
 A \code{ggplot2} object.
 }
 \description{
-\code{autoplot()} uses ggplot2 to draw a particular plot for an object of a
-particular class in a single command.
+\code{autoplot()} uses ggplot2 to draw a plots for objects created with \code{tv_*()}
+functions in a single command.
 }
 \examples{
 library(ggplot2)

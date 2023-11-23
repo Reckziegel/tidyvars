@@ -4,7 +4,7 @@
 \alias{tv_predict}
 \alias{tv_predict.default}
 \alias{tv_predict.varest}
-\title{Tidy Prediction of a VAR Model}
+\title{Tidy Predict}
 \usage{
 tv_predict(x, ...)
 
@@ -13,7 +13,7 @@ tv_predict(x, ...)
 \method{tv_predict}{varest}(x, ...)
 }
 \arguments{
-\item{x}{An object of the `varest` class.}
+\item{x}{An object of the \code{varest} class.}
 
 \item{...}{Additional objects to be pass through.}
 }
@@ -21,7 +21,7 @@ tv_predict(x, ...)
 A \code{tibble}.
 }
 \description{
-Tidyier for the `varest` class.
+Tidier for the \code{varest} class.
 }
 \examples{
 model <- vars::VAR(EuStockMarkets)

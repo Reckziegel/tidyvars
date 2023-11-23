@@ -1,8 +1,8 @@
-#' Tidy IRF for a VAR Model
+#' Tidy Impulse-Response Function
 #'
-#' Tidyier for the `varest` class.
+#' Tidier for the \code{varest}, \code{vec2var} and \code{svarest} class.
 #'
-#' @param x An object of the `varest` class.
+#' @param x An object of the \code{varest}, \code{vec2var} and \code{svarest} class.
 #' @param ... Additional objects to be pass through.
 #'
 #' @return A \code{tibble}.

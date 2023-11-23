@@ -1,7 +1,7 @@
 #' Autoplot Methods for VAR Models
 #'
-#' \code{autoplot()} uses ggplot2 to draw a particular plot for an object of a
-#' particular class in a single command.
+#' \code{autoplot()} uses ggplot2 to draw a plots for objects created with \code{tv_*()}
+#' functions in a single command.
 #'
 #' @param object An object, whose class will determine the behavior of autoplot.
 #' @param ... Other arguments passed to specific methods.
@@ -30,7 +30,7 @@ autoplot.tv_fevd <- function(object, ...) {
                   subtitle = "FEVD functions for shock in variables",
                   x = "Periods Ahead",
                   y = "FEVD",
-                  fill = "Variable") #+
+                  fill = NULL) #+
     #ggplot2::theme(legend.position = "bottom")
 
 }

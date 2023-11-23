@@ -16,7 +16,7 @@ tv_augment(x, ...)
 \method{tv_augment}{vec2var}(x, ...)
 }
 \arguments{
-\item{x}{An object of the `varest` class.}
+\item{x}{An object of the \code{varest} and \code{vec2var} class.}
 
 \item{...}{Additional objects to be pass through.}
 }
@@ -24,7 +24,7 @@ tv_augment(x, ...)
 A \code{tibble}.
 }
 \description{
-Augment for the `varest` class.
+Augment for the \code{varest} and \code{vec2var} class.
 }
 \examples{
 model <- vars::VAR(EuStockMarkets)

@@ -1,5 +1,8 @@
 ---
 output: github_document
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -15,67 +18,123 @@ knitr::opts_chunk$set(
 
 # tidyvars
 
+> "tidiers" extension for VAR models
+
 <!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![R-CMD-check](https://github.com/Reckziegel/tidyvars/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Reckziegel/tidyvars/actions/workflows/R-CMD-check.yaml)
+[![CRAN status](https://www.r-pkg.org/badges/version/tidyvars)](https://CRAN.R-project.org/package=tidyvars)
+[![Codecov test coverage](https://codecov.io/gh/Reckziegel/tidyvars/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Reckziegel/tidyvars?branch=main)
 <!-- badges: end -->
 
-`tidyvars` extend tidiers for VAR modelling in R.
+`tidyvars` is designed to integrate the `vars` package with the tidyverse ecosystem: 
+it introduces "tidiers" to simplify the analysis of Vector Autoregressive 
+(VAR) Models, following the "tidy data" philosophy. The package makes VAR modelling 
+more accessible and intuitive, especially for old users of `broom`.
+
+## Why Use `tidyvars`?
+
+Choosing `tidyvars` for working with VAR Models offers key advantages:
+
+__1. Efficient Data Handling__: `tidyvars` converts VAR outputs into a "tidy format" 
+simplifying data manipulation.
+
+__2. Tidyverse Integration__: `tidyvars` ensures smooth interoperability 
+with famous tools, like `dplyr` and `ggplot2`. 
+
+__3. Enhanced Interpretability__: `tidyvars` significantly eases the understanding 
+and interpretation of model results.
+
+<!-- __4. Focus on Analitical Skils__: for tidyverse users, `tidyvars` shifts the focus  -->
+<!-- from data wrangling to model analysis.  -->
 
 ## Installation
 
-You can install the development version of `tidyvars` like so:
+You can install the development version of `tidyvars` from github with:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+# install.packages(devtools)
+devtools::install_github("https://github.com/Reckziegel/tidyvars")
 ```
 
-## Tidy Tibbles
+## Usage Examples
 
-This is a basic example which shows you how to solve a common problem:
+
+Effortlessly manipulate, summarize, and augment VAR models using  `tv_tidy()`, 
+`tv_glance()`, and `tv_augment()`:
 
 ```{r example}
 library(tidyvars)
 library(ggplot2)
 
-mod <- vars::VAR(EuStockMarkets, p = 2)
+mod <- vars::VAR(EuStockMarkets)
 
-# tidy tibbles
+# Tidies the VAR model for easier analysis
 tv_tidy(mod)
 
-# glance
+# Provides a concise summary of the model
 tv_glance(mod)
 
-# augment
+# Augments the original data with model's details
 tv_augment(mod)
+```
 
-# tidy model checking (normlity test)
+The `tidyvars` functions begins with `tv_*()` and maintain the same suffix as
+found in the `vars` package for consistency.
+
+To evaluate the model's adherence to standard parametric assumptions use 
+`tv_normality_test()` and `tv_serial_test()`:
+
+```{r}
+# Tests for multivariate normality of residuals
 tv_normality_test(mod)
 
-# tidy model checking (arch effects)
+# Checks for serial correlation in residuals
 tv_serial_test(mod)
+```
 
-# tidy causality test
+To delve deeper into the causal relationships see `tv_causality()`:
+
+```{r}
+# Analyzes causal relationships in the VAR model
 tv_causality(mod)
+```
 
-# tidy prediction
+When the primary focus is on forecasting, `tv_predict()` can be handy:
+
+```{r}
+# Generates forecasts from the VAR model
 tv_predict(mod)
+tv_predict(mod, n.ahead = 1)
+```
 
-# tidy FEVD
+For more nuanced inferences about the relationships among variables in the model, 
+use `tv_fevd()` and `tv_irf()`:
+
+```{r}
+# Conducts Forecast Error Variance Decomposition
 tv_fevd(mod)
 
-# tidy IRF
+# Computes Impulse Response Functions
 tv_irf(mod)
 ```
 
+The functions `tv_fevd()` and `tv_irf()` are particularly useful for
+understanding how shocks to one variable might propagate through the
+system and impact other variables over time. 
+
 ## Plotting
 
+`tidyvars` integrates the `autoplot()` method for each of its functions to enhance 
+the user experience with a quick and intuitive visual representation of model outputs. 
+
+See some examples bellow:
+
 ```{r, warning=FALSE}
-# autoplot method for IRF
+# Visualizes Impulse Response Functions
 autoplot(tv_irf(mod))
-
-# autoplot method for IRF
+# Displays Forecast Error Variance Decomposition
 autoplot(tv_fevd(mod))
-
-# autoplot method for predict
+# Generates visual forecasts
 autoplot(tv_predict(mod, n.ahead = 12))
 ```
-

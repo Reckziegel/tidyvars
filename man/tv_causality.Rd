@@ -4,7 +4,7 @@
 \alias{tv_causality}
 \alias{tv_causality.default}
 \alias{tv_causality.varest}
-\title{Tidy IRF for a VAR Model}
+\title{Tidy Causality Test}
 \usage{
 tv_causality(x, ...)
 
@@ -13,7 +13,7 @@ tv_causality(x, ...)
 \method{tv_causality}{varest}(x, ...)
 }
 \arguments{
-\item{x}{An object of the `varest` class.}
+\item{x}{An object of the \code{varest} class.}
 
 \item{...}{Additional objects to be pass through.}
 }
@@ -21,7 +21,7 @@ tv_causality(x, ...)
 A \code{tibble}.
 }
 \description{
-Tidyier for the `varest` class.
+Tidier for the \code{varest} class.
 }
 \examples{
 model <- vars::VAR(EuStockMarkets)

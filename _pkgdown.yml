@@ -1,4 +1,30 @@
-url: ~
+url: https://github.com/Reckziegel/tidyvars
 template:
   bootstrap: 5
 
+reference:
+
+    - title: Tidiers
+      contents:
+      - tv_tidy
+      - tv_glance
+      - tv_augment
+
+    - title: Tests
+      contents:
+      - tv_normality_test
+      - tv_serial_test
+      - tv_causality
+
+    - title: Forecasting
+      contents:
+      - tv_predict
+
+    - title: Inference
+      contents:
+      - tv_irf
+      - tv_fevd
+
+    - title: Plotting
+      contents:
+      - autoplot.tv_fevd

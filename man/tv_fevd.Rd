@@ -5,7 +5,7 @@
 \alias{tv_fevd.default}
 \alias{tv_fevd.varest}
 \alias{tv_fevd.vec2var}
-\title{Tidy FEVD for a VAR Model}
+\title{Tidy Forecast Error Variance Decomposition}
 \usage{
 tv_fevd(x, ...)
 
@@ -16,7 +16,7 @@ tv_fevd(x, ...)
 \method{tv_fevd}{vec2var}(x, ...)
 }
 \arguments{
-\item{x}{An object of the `varest` class.}
+\item{x}{An object of the \code{varest} and \code{vec2var} class.}
 
 \item{...}{Additional objects to be pass through.}
 }
@@ -24,7 +24,7 @@ tv_fevd(x, ...)
 A \code{tibble}.
 }
 \description{
-Tidyier for the `varest` class.
+Tidier for the \code{varest} and \code{vec2var} class.
 }
 \examples{
 model <- vars::VAR(EuStockMarkets)
