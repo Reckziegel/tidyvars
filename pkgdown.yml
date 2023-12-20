@@ -2,7 +2,7 @@ pandoc: 2.19.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles: {}
-last_built: 2023-11-23T03:35Z
+last_built: 2023-12-20T01:02Z
 urls:
   reference: https://github.com/Reckziegel/tidyvars/reference
   article: https://github.com/Reckziegel/tidyvars/articles

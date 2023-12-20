@@ -8,8 +8,8 @@
 <meta name="description" content="Extends broom for VAR, SVAR and SVEC models.">
 <title>Extends broom for VAR models • tidyvars</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Extends broom for VAR models">
 <meta property="og:description" content="Extends broom for VAR, SVAR and SVEC models.">
@@ -61,10 +61,11 @@
 <div class="page-header"><h1 id="tidyvars">tidyvars<a class="anchor" aria-label="anchor" href="#tidyvars"></a>
 </h1></div>
 <blockquote>
-<p>“tidiers” extension for VAR models</p>
+<p>“tidiers” for VAR models</p>
 </blockquote>
 <!-- badges: start -->
 
+<!-- badges: end -->
 <p><code>tidyvars</code> is designed to integrate the <code>vars</code> package with the tidyverse ecosystem: it introduces “tidiers” to simplify the analysis of Vector Autoregressive (VAR) Models, following the “tidy data” philosophy. The package makes VAR modelling more accessible and intuitive, especially for old users of <code>broom</code>.</p>
 <div class="section level2">
 <h2 id="why-use-tidyvars">Why Use <code>tidyvars</code>?<a class="anchor" aria-label="anchor" href="#why-use-tidyvars"></a>
@@ -164,7 +165,7 @@
 <span><span class="co">#&gt; 2 PT.adjusted       591.          240        0 Portmanteau Test (adjusted)  </span></span>
 <span><span class="co">#&gt; 3 BG                257.           80        0 Breusch-Godfrey LM test      </span></span>
 <span><span class="co">#&gt; 4 ES                  3.29         80        0 Edgerton-Shukur F test</span></span></code></pre></div>
-<p>To delve deeper into the causal relationships see <code><a href="reference/tv_causality.html">tv_causality()</a></code>:</p>
+<p>To delve deeper into the causal relationships, see <code><a href="reference/tv_causality.html">tv_causality()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Analyzes causal relationships in the VAR model</span></span>
 <span><span class="fu"><a href="reference/tv_causality.html">tv_causality</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span>
@@ -179,24 +180,9 @@
 <span><span class="co">#&gt; 6 SMI    instant     689.            3 0        H0: No instantaneous causality ~</span></span>
 <span><span class="co">#&gt; 7 CAC    instant     705.            3 0        H0: No instantaneous causality ~</span></span>
 <span><span class="co">#&gt; 8 FTSE   instant     650.            3 0        H0: No instantaneous causality ~</span></span></code></pre></div>
-<p>When the primary focus is on forecasting, <code><a href="reference/tv_predict.html">tv_predict()</a></code> can be handy:</p>
+<p>VAR models are specially useful for forecasting given the ability to capture interdependencies of multiple time series. In <code>tidyvars</code>, this task be easily accomplished with <code><a href="reference/tv_predict.html">tv_predict()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Generates forecasts from the VAR model</span></span>
-<span><span class="fu"><a href="reference/tv_predict.html">tv_predict</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 40 x 6</span></span>
-<span><span class="co">#&gt;    rowid .asset  fcst lower upper    CI</span></span>
-<span><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1     1 DAX    5478. 5415. 5541.  63.4</span></span>
-<span><span class="co">#&gt;  2     2 DAX    5482. 5393. 5572.  89.4</span></span>
-<span><span class="co">#&gt;  3     3 DAX    5486. 5377. 5596. 109. </span></span>
-<span><span class="co">#&gt;  4     4 DAX    5490. 5365. 5616. 126. </span></span>
-<span><span class="co">#&gt;  5     5 DAX    5494. 5354. 5635. 140. </span></span>
-<span><span class="co">#&gt;  6     6 DAX    5498. 5345. 5652. 153. </span></span>
-<span><span class="co">#&gt;  7     7 DAX    5502. 5337. 5667. 165. </span></span>
-<span><span class="co">#&gt;  8     8 DAX    5506. 5330. 5682. 176. </span></span>
-<span><span class="co">#&gt;  9     9 DAX    5510. 5323. 5696. 186. </span></span>
-<span><span class="co">#&gt; 10    10 DAX    5513. 5317. 5709. 196. </span></span>
-<span><span class="co">#&gt; # i 30 more rows</span></span>
 <span><span class="fu"><a href="reference/tv_predict.html">tv_predict</a></span><span class="op">(</span><span class="va">mod</span>, n.ahead <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 4 x 6</span></span>
 <span><span class="co">#&gt;   rowid .asset  fcst lower upper    CI</span></span>
@@ -204,8 +190,32 @@
 <span><span class="co">#&gt; 1     1 DAX    5478. 5415. 5541.  63.4</span></span>
 <span><span class="co">#&gt; 2     1 SMI    7674. 7596. 7753.  78.1</span></span>
 <span><span class="co">#&gt; 3     1 CAC    3998. 3947. 4050.  51.3</span></span>
-<span><span class="co">#&gt; 4     1 FTSE   5458. 5398. 5518.  59.9</span></span></code></pre></div>
-<p>For more nuanced inferences about the relationships among variables in the model, use <code><a href="reference/tv_fevd.html">tv_fevd()</a></code> and <code><a href="reference/tv_irf.html">tv_irf()</a></code>:</p>
+<span><span class="co">#&gt; 4     1 FTSE   5458. 5398. 5518.  59.9</span></span>
+<span><span class="fu"><a href="reference/tv_predict.html">tv_predict</a></span><span class="op">(</span><span class="va">mod</span>, n.ahead <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 20 x 6</span></span>
+<span><span class="co">#&gt;    rowid .asset  fcst lower upper    CI</span></span>
+<span><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1     1 DAX    5478. 5415. 5541.  63.4</span></span>
+<span><span class="co">#&gt;  2     2 DAX    5482. 5393. 5572.  89.4</span></span>
+<span><span class="co">#&gt;  3     3 DAX    5486. 5377. 5596. 109. </span></span>
+<span><span class="co">#&gt;  4     4 DAX    5490. 5365. 5616. 126. </span></span>
+<span><span class="co">#&gt;  5     5 DAX    5494. 5354. 5635. 140. </span></span>
+<span><span class="co">#&gt;  6     1 SMI    7674. 7596. 7753.  78.1</span></span>
+<span><span class="co">#&gt;  7     2 SMI    7673. 7562. 7783. 111. </span></span>
+<span><span class="co">#&gt;  8     3 SMI    7671. 7535. 7806. 135. </span></span>
+<span><span class="co">#&gt;  9     4 SMI    7669. 7513. 7826. 156. </span></span>
+<span><span class="co">#&gt; 10     5 SMI    7667. 7493. 7842. 175. </span></span>
+<span><span class="co">#&gt; 11     1 CAC    3998. 3947. 4050.  51.3</span></span>
+<span><span class="co">#&gt; 12     2 CAC    4002. 3929. 4074.  72.5</span></span>
+<span><span class="co">#&gt; 13     3 CAC    4005. 3917. 4094.  88.6</span></span>
+<span><span class="co">#&gt; 14     4 CAC    4008. 3906. 4110. 102. </span></span>
+<span><span class="co">#&gt; 15     5 CAC    4012. 3898. 4125. 114. </span></span>
+<span><span class="co">#&gt; 16     1 FTSE   5458. 5398. 5518.  59.9</span></span>
+<span><span class="co">#&gt; 17     2 FTSE   5462. 5377. 5546.  84.4</span></span>
+<span><span class="co">#&gt; 18     3 FTSE   5465. 5362. 5568. 103. </span></span>
+<span><span class="co">#&gt; 19     4 FTSE   5468. 5349. 5586. 118. </span></span>
+<span><span class="co">#&gt; 20     5 FTSE   5471. 5339. 5602. 132.</span></span></code></pre></div>
+<p>For more nuanced inferences about the relationships in the model, use <code><a href="reference/tv_fevd.html">tv_fevd()</a></code> and <code><a href="reference/tv_irf.html">tv_irf()</a></code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Conducts Forecast Error Variance Decomposition</span></span>
 <span><span class="fu"><a href="reference/tv_fevd.html">tv_fevd</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span>
@@ -229,36 +239,57 @@
 <span><span class="co">#&gt; # A tibble: 176 x 6</span></span>
 <span><span class="co">#&gt;    rowid .impulse .asset  .irf .lower .upper</span></span>
 <span><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1     1 DAX      DAX     32.4   30.5   34.3</span></span>
-<span><span class="co">#&gt;  2     1 DAX      SMI     29.8   26.1   32.9</span></span>
-<span><span class="co">#&gt;  3     1 DAX      CAC     19.5   17.7   21.4</span></span>
-<span><span class="co">#&gt;  4     1 DAX      FTSE    20.8   18.8   22.8</span></span>
-<span><span class="co">#&gt;  5     2 DAX      DAX     32.2   30.2   34.1</span></span>
-<span><span class="co">#&gt;  6     2 DAX      SMI     29.8   25.9   32.9</span></span>
-<span><span class="co">#&gt;  7     2 DAX      CAC     19.4   17.4   21.1</span></span>
+<span><span class="co">#&gt;  1     1 DAX      DAX     32.4   30.1   34.4</span></span>
+<span><span class="co">#&gt;  2     1 DAX      SMI     29.8   26.7   32.6</span></span>
+<span><span class="co">#&gt;  3     1 DAX      CAC     19.5   17.9   21.2</span></span>
+<span><span class="co">#&gt;  4     1 DAX      FTSE    20.8   18.7   22.7</span></span>
+<span><span class="co">#&gt;  5     2 DAX      DAX     32.2   29.9   34.1</span></span>
+<span><span class="co">#&gt;  6     2 DAX      SMI     29.8   26.9   32.7</span></span>
+<span><span class="co">#&gt;  7     2 DAX      CAC     19.4   17.8   21.0</span></span>
 <span><span class="co">#&gt;  8     2 DAX      FTSE    20.6   18.5   22.4</span></span>
-<span><span class="co">#&gt;  9     3 DAX      DAX     32.0   29.9   33.7</span></span>
-<span><span class="co">#&gt; 10     3 DAX      SMI     29.9   25.8   32.9</span></span>
+<span><span class="co">#&gt;  9     3 DAX      DAX     32.0   29.7   33.9</span></span>
+<span><span class="co">#&gt; 10     3 DAX      SMI     29.9   27.0   32.8</span></span>
+<span><span class="co">#&gt; # i 166 more rows</span></span>
+<span></span>
+<span><span class="co"># IRF from Blanchard-Quah Decomposition</span></span>
+<span><span class="fu"><a href="reference/tv_irf.html">tv_irf</a></span><span class="op">(</span><span class="fu">vars</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/vars/man/BQ.html" class="external-link">BQ</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 176 x 6</span></span>
+<span><span class="co">#&gt;    rowid .impulse .asset  .irf .lower .upper</span></span>
+<span><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1     1 DAX      DAX     5.23  -4.81   24.6</span></span>
+<span><span class="co">#&gt;  2     1 DAX      SMI     8.49  -7.82   35.9</span></span>
+<span><span class="co">#&gt;  3     1 DAX      CAC    -8.84 -14.2    18.1</span></span>
+<span><span class="co">#&gt;  4     1 DAX      FTSE   12.9   -5.73   28.4</span></span>
+<span><span class="co">#&gt;  5     2 DAX      DAX     5.15  -4.72   24.6</span></span>
+<span><span class="co">#&gt;  6     2 DAX      SMI     8.58  -7.86   35.9</span></span>
+<span><span class="co">#&gt;  7     2 DAX      CAC    -8.82 -14.2    18.1</span></span>
+<span><span class="co">#&gt;  8     2 DAX      FTSE   12.9   -5.75   28.3</span></span>
+<span><span class="co">#&gt;  9     3 DAX      DAX     5.08  -4.63   24.7</span></span>
+<span><span class="co">#&gt; 10     3 DAX      SMI     8.66  -7.90   36.0</span></span>
 <span><span class="co">#&gt; # i 166 more rows</span></span></code></pre></div>
 <p>The functions <code><a href="reference/tv_fevd.html">tv_fevd()</a></code> and <code><a href="reference/tv_irf.html">tv_irf()</a></code> are particularly useful for understanding how shocks to one variable might propagate through the system and impact other variables over time.</p>
 </div>
 <div class="section level2">
 <h2 id="plotting">Plotting<a class="anchor" aria-label="anchor" href="#plotting"></a>
 </h2>
-<p><code>tidyvars</code> integrates the <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot()</a></code> method for each of its functions to enhance the user experience with a quick and intuitive visual representation of model outputs.</p>
+<p><code>tidyvars</code> integrates the <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot()</a></code> method for most functions to enhance the user experience with a quick and intuitive visual representation of model outputs.</p>
 <p>See some examples bellow:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Visualizes Impulse Response Functions</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="fu"><a href="reference/tv_irf.html">tv_irf</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Fitted Model</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="fu"><a href="reference/tv_augment.html">tv_augment</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="100%"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Displays Forecast Error Variance Decomposition</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="fu"><a href="reference/tv_fevd.html">tv_fevd</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Visualizes Impulse Response Functions</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="fu"><a href="reference/tv_irf.html">tv_irf</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-6-2.png" width="100%"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Displays Forecast Error Variance Decomposition</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="fu"><a href="reference/tv_fevd.html">tv_fevd</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-6-3.png" width="100%"></p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Generates visual forecasts</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="fu"><a href="reference/tv_predict.html">tv_predict</a></span><span class="op">(</span><span class="va">mod</span>, n.ahead <span class="op">=</span> <span class="fl">12</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-6-3.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-6-4.png" width="100%"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
