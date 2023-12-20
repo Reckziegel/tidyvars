@@ -4,7 +4,7 @@ x <- vars::VAR(EuStockMarkets, p = 2)
 
 test_that("tv_predict works", {
 
-  td <- tv_predict(x)
+  td <- tv_predict(x, n.ahead = 10)
 
   expect_named(td, c("rowid", ".asset", "fcst", "lower", "upper", "CI"))
   expect_type(td, "list")

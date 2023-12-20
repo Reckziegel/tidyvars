@@ -6,14 +6,16 @@
 \alias{tv_predict.varest}
 \title{Tidy Predict}
 \usage{
-tv_predict(x, ...)
+tv_predict(x, n.ahead, ...)
 
-\method{tv_predict}{default}(x, ...)
+\method{tv_predict}{default}(x, n.ahead, ...)
 
-\method{tv_predict}{varest}(x, ...)
+\method{tv_predict}{varest}(x, n.ahead, ...)
 }
 \arguments{
 \item{x}{An object of the \code{varest} class.}
+
+\item{n.ahead}{The number of periods ahead in which the prediction should be made.}
 
 \item{...}{Additional objects to be pass through.}
 }
@@ -25,5 +27,5 @@ Tidier for the \code{varest} class.
 }
 \examples{
 model <- vars::VAR(EuStockMarkets)
-tv_predict(model)
+tv_predict(model, n.ahead = 12)
 }

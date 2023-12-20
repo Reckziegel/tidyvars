@@ -1,6 +1,6 @@
 #' Tidy a VAR Model
 #'
-#' Tidier for the \code{varest} and class.
+#' Tidier for the \code{varest} class.
 #'
 #' @param x An object of the \code{varest} class.
 #' @param ... Additional objects to be pass through.

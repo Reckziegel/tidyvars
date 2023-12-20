@@ -19,7 +19,7 @@
 
 \method{autoplot}{tv_irf}(object, ...)
 
-\method{autoplot}{tv_predict}(object, ...)
+\method{autoplot}{tv_predict}(object, period = NULL, ...)
 
 \method{autoplot}{tv_augment}(object, ...)
 
@@ -27,7 +27,7 @@
 
 \method{autoplot}{tv_causality}(object, ...)
 
-\method{autoplot}{tv_predict}(object, ...)
+\method{autoplot}{tv_predict}(object, period = NULL, ...)
 
 \method{plot}{tv_causality}(object, ...)
 
@@ -45,6 +45,9 @@
 \item{object}{An object, whose class will determine the behavior of autoplot.}
 
 \item{...}{Other arguments passed to specific methods.}
+
+\item{period}{Defaults to \code{NULL}. Only used in conjunction with \code{tv_predict()}.
+One of: \code{"day"}, \code{"week"} or \code{"month"}.}
 
 \item{type}{The column that should be plotted.}
 }

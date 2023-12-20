@@ -4,6 +4,8 @@
 #' functions in a single command.
 #'
 #' @param object An object, whose class will determine the behavior of autoplot.
+#' @param period Defaults to \code{NULL}. Only used in conjunction with \code{tv_predict()}.
+#' One of: \code{"day"}, \code{"week"} or \code{"month"}.
 #' @param ... Other arguments passed to specific methods.
 #'
 #' @return A \code{ggplot2} object.
@@ -48,7 +50,7 @@ autoplot.tv_irf <- function(object, ...) {
     ggplot2::geom_hline(yintercept = 0, color = "grey", linetype = 1, size = 1) +
     #ggplot2::scale_y_continuous(labels = scales::percent_format(accuracy = 0.01)) +
     ggplot2::facet_wrap(facets = . ~ label, scales = "free_y") +
-    ggplot2::labs(title    = "Impulse-Response Funcions",
+    ggplot2::labs(title    = "Impulse-Response Functions",
                   subtitle = "Impulse -> Response",
                   x        = "Periods Ahead",
                   y        = "Impulse-Responses"
@@ -75,12 +77,22 @@ autoplot.tv_predict <- function(object, ...) {
 #' @export
 autoplot.tv_augment <- function(object, ...) {
 
+  atrib <- attributes(object)$.data
+
+  if (check_date_col(atrib) > 1) {
+
+    dates <- lubridate::as_date(rownames(atrib$y))
+    #dates <- dates[atrib$K:NROW(dates)]
+    object <- dplyr::mutate(object, rowid = rep(dates, atrib$K))
+
+  }
+
   object |>
     ggplot2::ggplot(ggplot2::aes(x = rowid, y = .x, color = .asset)) +
-    ggplot2::geom_line(alpha = 0.5) +
-    ggplot2::geom_line(ggplot2::aes(y = .fitted)) +
-    ggplot2::facet_wrap(~ .asset) +
-    ggplot2::labs(color = "Asset")
+    ggplot2::geom_line(alpha = 0.5, show.legend = FALSE) +
+    ggplot2::geom_line(ggplot2::aes(y = .fitted), show.legend = FALSE) +
+    ggplot2::facet_wrap(~ .asset, scales = "free_y") +
+    ggplot2::labs(color = NULL, x = NULL, y = NULL)
 
 }
 
@@ -96,7 +108,7 @@ autoplot.tv_tidy <- function(object, type = c("estimate", "statistic"), ...) {
 
     object |>
       ggplot2::ggplot(ggplot2::aes(x = term, y = estimate, fill = term)) +
-      ggplot2::geom_col() +
+      ggplot2::geom_col(show.legend = FALSE) +
       ggplot2::geom_hline(yintercept = 0, linetype = 1, color = "grey") +
       ggplot2::facet_wrap(~group, scales = "free_y")
 
@@ -104,9 +116,9 @@ autoplot.tv_tidy <- function(object, type = c("estimate", "statistic"), ...) {
 
     object |>
       ggplot2::ggplot(ggplot2::aes(x = term, y = statistic, fill = term)) +
-      ggplot2::geom_col() +
-      ggplot2::geom_hline(yintercept = 2, linetype = 1, color = "grey", size = 1) +
-      ggplot2::geom_hline(yintercept = -2, linetype = 1, color = "grey", size = 1) +
+      ggplot2::geom_col(show.legend = FALSE) +
+      ggplot2::geom_hline(yintercept = 2, linetype = 1, color = "grey", size = 1, show.legend = FALSE) +
+      ggplot2::geom_hline(yintercept = -2, linetype = 1, color = "grey", size = 1, show.legend = FALSE) +
       ggplot2::facet_wrap(~group, scales = "free_y")
 
   }
@@ -128,7 +140,11 @@ autoplot.tv_causality <- function(object, ...) {
 
 #' @rdname autoplot
 #' @export
-autoplot.tv_predict <- function(object, ...) {
+autoplot.tv_predict <- function(object, period = NULL, ...) {
+
+  if (!is.null(period)) {
+    rlang::arg_match(period, c("day", "week", "month"))
+  }
 
   .data <- tibble::as_tibble(attributes(object)$.data) |>
     tibble::rowid_to_column() |>
@@ -145,20 +161,35 @@ autoplot.tv_predict <- function(object, ...) {
   .n_data <- nrow(.data) / .unique
   .n_pred <- nrow(.pred) / .unique
 
-  .vec <- rep(1:.n_data, each = .unique)
-  .fcst_vec <- rep(max(.vec) + 1:.n_pred, each = .unique)
+  if (!is.null(period)) {
 
+    .vec <- rep(lubridate::as_date(rownames(attributes(object)$.data)), each = .unique)
+
+    if (period == "day") {
+      .fcst_vec <- rep(utils::tail(.vec, 1) + lubridate::days(1:attributes(object)$n.ahead), each = .unique)
+    } else if (period == "week") {
+      .fcst_vec <- rep(utils::tail(.vec, 1) + lubridate::weeks(1:attributes(object)$n.ahead), each = .unique)
+    } else {
+      .fcst_vec <- rep(utils::tail(.vec, 1) + months(1:attributes(object)$n.ahead), each = .unique)
+    }
+
+  } else {
+
+    .vec <- rep(1:.n_data, each = .unique)
+    .fcst_vec <- rep(max(.vec) + 1:.n_pred, each = .unique)
+
+  }
 
   dplyr::bind_rows(.data, .pred) |>
     dplyr::mutate(rowid = c(.vec, .fcst_vec)) |>
     dplyr::slice_tail(n = if (.n_data > 300) 300 else .n_data) |>
     ggplot2::ggplot(ggplot2::aes(x = rowid, y = .y, color = .asset)) +
-    ggplot2::geom_line() +
-    ggplot2::geom_line(ggplot2::aes(x = rowid, y = fcst), linetype = 2) +
-    ggplot2::geom_line(ggplot2::aes(x = rowid, y = lower), linetype = 3) +
-    ggplot2::geom_line(ggplot2::aes(x = rowid, y = upper), linetype = 3) +
+    ggplot2::geom_line(show.legend = FALSE) +
+    ggplot2::geom_line(ggplot2::aes(x = rowid, y = fcst), linetype = 2, show.legend = FALSE) +
+    ggplot2::geom_line(ggplot2::aes(x = rowid, y = lower), linetype = 3, show.legend = FALSE) +
+    ggplot2::geom_line(ggplot2::aes(x = rowid, y = upper), linetype = 3, show.legend = FALSE) +
     ggplot2::facet_wrap(~ .asset, scales = "free_y") +
-    ggplot2::labs(color = NULL)
+    ggplot2::labs(color = NULL, x = NULL, y = NULL)
 
 }
 

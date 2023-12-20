@@ -18,34 +18,41 @@ knitr::opts_chunk$set(
 
 # tidyvars
 
-> "tidiers" extension for VAR models
+> "tidiers" for VAR models
 
 <!-- badges: start -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R-CMD-check](https://github.com/Reckziegel/tidyvars/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Reckziegel/tidyvars/actions/workflows/R-CMD-check.yaml)
-[![CRAN status](https://www.r-pkg.org/badges/version/tidyvars)](https://CRAN.R-project.org/package=tidyvars)
-[![Codecov test coverage](https://codecov.io/gh/Reckziegel/tidyvars/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Reckziegel/tidyvars?branch=main)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/tidyvars)](https://CRAN.R-project.org/package=tidyvars)
+[![Codecov test
+coverage](https://codecov.io/gh/Reckziegel/tidyvars/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Reckziegel/tidyvars?branch=main)
+
 <!-- badges: end -->
 
-`tidyvars` is designed to integrate the `vars` package with the tidyverse ecosystem: 
-it introduces "tidiers" to simplify the analysis of Vector Autoregressive 
-(VAR) Models, following the "tidy data" philosophy. The package makes VAR modelling 
-more accessible and intuitive, especially for old users of `broom`.
+`tidyvars` is designed to integrate the `vars` package with the
+tidyverse ecosystem: it introduces "tidiers" to simplify the analysis of
+Vector Autoregressive (VAR) Models, following the "tidy data"
+philosophy. The package makes VAR modelling more accessible and
+intuitive, especially for old users of `broom`.
 
 ## Why Use `tidyvars`?
 
 Choosing `tidyvars` for working with VAR Models offers key advantages:
 
-__1. Efficient Data Handling__: `tidyvars` converts VAR outputs into a "tidy format" 
-simplifying data manipulation.
+**1. Efficient Data Handling**: `tidyvars` converts VAR outputs into a
+"tidy format" simplifying data manipulation.
 
-__2. Tidyverse Integration__: `tidyvars` ensures smooth interoperability 
-with famous tools, like `dplyr` and `ggplot2`. 
+**2. Tidyverse Integration**: `tidyvars` ensures smooth interoperability
+with famous tools, like `dplyr` and `ggplot2`.
 
-__3. Enhanced Interpretability__: `tidyvars` significantly eases the understanding 
-and interpretation of model results.
+**3. Enhanced Interpretability**: `tidyvars` significantly eases the
+understanding and interpretation of model results.
 
 <!-- __4. Focus on Analitical Skils__: for tidyverse users, `tidyvars` shifts the focus  -->
+
 <!-- from data wrangling to model analysis.  -->
 
 ## Installation
@@ -59,9 +66,8 @@ devtools::install_github("https://github.com/Reckziegel/tidyvars")
 
 ## Usage Examples
 
-
-Effortlessly manipulate, summarize, and augment VAR models using  `tv_tidy()`, 
-`tv_glance()`, and `tv_augment()`:
+Effortlessly manipulate, summarize, and augment VAR models using
+`tv_tidy()`, `tv_glance()`, and `tv_augment()`:
 
 ```{r example}
 library(tidyvars)
@@ -79,10 +85,10 @@ tv_glance(mod)
 tv_augment(mod)
 ```
 
-The `tidyvars` functions begins with `tv_*()` and maintain the same suffix as
-found in the `vars` package for consistency.
+The `tidyvars` functions begins with `tv_*()` and maintain the same
+suffix as found in the `vars` package for consistency.
 
-To evaluate the model's adherence to standard parametric assumptions use 
+To evaluate the model's adherence to standard parametric assumptions use
 `tv_normality_test()` and `tv_serial_test()`:
 
 ```{r}
@@ -93,23 +99,25 @@ tv_normality_test(mod)
 tv_serial_test(mod)
 ```
 
-To delve deeper into the causal relationships see `tv_causality()`:
+To delve deeper into the causal relationships, see `tv_causality()`:
 
 ```{r}
 # Analyzes causal relationships in the VAR model
 tv_causality(mod)
 ```
 
-When the primary focus is on forecasting, `tv_predict()` can be handy:
+VAR models are specially useful for forecasting given the ability to capture
+interdependencies of multiple time series. In `tidyvars`, this task 
+be easily accomplished with `tv_predict()`:
 
 ```{r}
 # Generates forecasts from the VAR model
-tv_predict(mod)
 tv_predict(mod, n.ahead = 1)
+tv_predict(mod, n.ahead = 5)
 ```
 
-For more nuanced inferences about the relationships among variables in the model, 
-use `tv_fevd()` and `tv_irf()`:
+For more nuanced inferences about the relationships in
+the model, use `tv_fevd()` and `tv_irf()`:
 
 ```{r}
 # Conducts Forecast Error Variance Decomposition
@@ -117,20 +125,26 @@ tv_fevd(mod)
 
 # Computes Impulse Response Functions
 tv_irf(mod)
+
+# IRF from Blanchard-Quah Decomposition
+tv_irf(vars::BQ(mod))
 ```
 
 The functions `tv_fevd()` and `tv_irf()` are particularly useful for
 understanding how shocks to one variable might propagate through the
-system and impact other variables over time. 
+system and impact other variables over time.
 
 ## Plotting
 
-`tidyvars` integrates the `autoplot()` method for each of its functions to enhance 
-the user experience with a quick and intuitive visual representation of model outputs. 
+`tidyvars` integrates the `autoplot()` method for most functions
+to enhance the user experience with a quick and intuitive visual
+representation of model outputs.
 
 See some examples bellow:
 
 ```{r, warning=FALSE}
+# Fitted Model
+autoplot(tv_augment(mod))
 # Visualizes Impulse Response Functions
 autoplot(tv_irf(mod))
 # Displays Forecast Error Variance Decomposition

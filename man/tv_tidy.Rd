@@ -21,7 +21,7 @@ tv_tidy(x, ...)
 A \code{tibble}.
 }
 \description{
-Tidier for the \code{varest} and class.
+Tidier for the \code{varest} class.
 }
 \examples{
 model <- vars::VAR(EuStockMarkets)

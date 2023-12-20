@@ -3,7 +3,7 @@
 
 # tidyvars
 
-> “tidiers” extension for VAR models
+> “tidiers” for VAR models
 
 <!-- badges: start -->
 
@@ -14,6 +14,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://www.r-pkg.org/badges/version/tidyvars)](https://CRAN.R-project.org/package=tidyvars)
 [![Codecov test
 coverage](https://codecov.io/gh/Reckziegel/tidyvars/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Reckziegel/tidyvars?branch=main)
+
 <!-- badges: end -->
 
 `tidyvars` is designed to integrate the `vars` package with the
@@ -136,7 +137,7 @@ tv_serial_test(mod)
 #> 4 ES                  3.29         80        0 Edgerton-Shukur F test
 ```
 
-To delve deeper into the causal relationships see `tv_causality()`:
+To delve deeper into the causal relationships, see `tv_causality()`:
 
 ``` r
 # Analyzes causal relationships in the VAR model
@@ -154,25 +155,12 @@ tv_causality(mod)
 #> 8 FTSE   instant     650.            3 0        H0: No instantaneous causality ~
 ```
 
-When the primary focus is on forecasting, `tv_predict()` can be handy:
+VAR models are specially useful for forecasting given the ability to
+capture interdependencies of multiple time series. In `tidyvars`, this
+task be easily accomplished with `tv_predict()`:
 
 ``` r
 # Generates forecasts from the VAR model
-tv_predict(mod)
-#> # A tibble: 40 x 6
-#>    rowid .asset  fcst lower upper    CI
-#>    <int> <chr>  <dbl> <dbl> <dbl> <dbl>
-#>  1     1 DAX    5478. 5415. 5541.  63.4
-#>  2     2 DAX    5482. 5393. 5572.  89.4
-#>  3     3 DAX    5486. 5377. 5596. 109. 
-#>  4     4 DAX    5490. 5365. 5616. 126. 
-#>  5     5 DAX    5494. 5354. 5635. 140. 
-#>  6     6 DAX    5498. 5345. 5652. 153. 
-#>  7     7 DAX    5502. 5337. 5667. 165. 
-#>  8     8 DAX    5506. 5330. 5682. 176. 
-#>  9     9 DAX    5510. 5323. 5696. 186. 
-#> 10    10 DAX    5513. 5317. 5709. 196. 
-#> # i 30 more rows
 tv_predict(mod, n.ahead = 1)
 #> # A tibble: 4 x 6
 #>   rowid .asset  fcst lower upper    CI
@@ -181,10 +169,34 @@ tv_predict(mod, n.ahead = 1)
 #> 2     1 SMI    7674. 7596. 7753.  78.1
 #> 3     1 CAC    3998. 3947. 4050.  51.3
 #> 4     1 FTSE   5458. 5398. 5518.  59.9
+tv_predict(mod, n.ahead = 5)
+#> # A tibble: 20 x 6
+#>    rowid .asset  fcst lower upper    CI
+#>    <int> <chr>  <dbl> <dbl> <dbl> <dbl>
+#>  1     1 DAX    5478. 5415. 5541.  63.4
+#>  2     2 DAX    5482. 5393. 5572.  89.4
+#>  3     3 DAX    5486. 5377. 5596. 109. 
+#>  4     4 DAX    5490. 5365. 5616. 126. 
+#>  5     5 DAX    5494. 5354. 5635. 140. 
+#>  6     1 SMI    7674. 7596. 7753.  78.1
+#>  7     2 SMI    7673. 7562. 7783. 111. 
+#>  8     3 SMI    7671. 7535. 7806. 135. 
+#>  9     4 SMI    7669. 7513. 7826. 156. 
+#> 10     5 SMI    7667. 7493. 7842. 175. 
+#> 11     1 CAC    3998. 3947. 4050.  51.3
+#> 12     2 CAC    4002. 3929. 4074.  72.5
+#> 13     3 CAC    4005. 3917. 4094.  88.6
+#> 14     4 CAC    4008. 3906. 4110. 102. 
+#> 15     5 CAC    4012. 3898. 4125. 114. 
+#> 16     1 FTSE   5458. 5398. 5518.  59.9
+#> 17     2 FTSE   5462. 5377. 5546.  84.4
+#> 18     3 FTSE   5465. 5362. 5568. 103. 
+#> 19     4 FTSE   5468. 5349. 5586. 118. 
+#> 20     5 FTSE   5471. 5339. 5602. 132.
 ```
 
-For more nuanced inferences about the relationships among variables in
-the model, use `tv_fevd()` and `tv_irf()`:
+For more nuanced inferences about the relationships in the model, use
+`tv_fevd()` and `tv_irf()`:
 
 ``` r
 # Conducts Forecast Error Variance Decomposition
@@ -209,16 +221,33 @@ tv_irf(mod)
 #> # A tibble: 176 x 6
 #>    rowid .impulse .asset  .irf .lower .upper
 #>    <int> <chr>    <chr>  <dbl>  <dbl>  <dbl>
-#>  1     1 DAX      DAX     32.4   30.5   34.3
-#>  2     1 DAX      SMI     29.8   26.1   32.9
-#>  3     1 DAX      CAC     19.5   17.7   21.4
-#>  4     1 DAX      FTSE    20.8   18.8   22.8
-#>  5     2 DAX      DAX     32.2   30.2   34.1
-#>  6     2 DAX      SMI     29.8   25.9   32.9
-#>  7     2 DAX      CAC     19.4   17.4   21.1
+#>  1     1 DAX      DAX     32.4   30.1   34.4
+#>  2     1 DAX      SMI     29.8   26.7   32.6
+#>  3     1 DAX      CAC     19.5   17.9   21.2
+#>  4     1 DAX      FTSE    20.8   18.7   22.7
+#>  5     2 DAX      DAX     32.2   29.9   34.1
+#>  6     2 DAX      SMI     29.8   26.9   32.7
+#>  7     2 DAX      CAC     19.4   17.8   21.0
 #>  8     2 DAX      FTSE    20.6   18.5   22.4
-#>  9     3 DAX      DAX     32.0   29.9   33.7
-#> 10     3 DAX      SMI     29.9   25.8   32.9
+#>  9     3 DAX      DAX     32.0   29.7   33.9
+#> 10     3 DAX      SMI     29.9   27.0   32.8
+#> # i 166 more rows
+
+# IRF from Blanchard-Quah Decomposition
+tv_irf(vars::BQ(mod))
+#> # A tibble: 176 x 6
+#>    rowid .impulse .asset  .irf .lower .upper
+#>    <int> <chr>    <chr>  <dbl>  <dbl>  <dbl>
+#>  1     1 DAX      DAX     5.23  -4.81   24.6
+#>  2     1 DAX      SMI     8.49  -7.82   35.9
+#>  3     1 DAX      CAC    -8.84 -14.2    18.1
+#>  4     1 DAX      FTSE   12.9   -5.73   28.4
+#>  5     2 DAX      DAX     5.15  -4.72   24.6
+#>  6     2 DAX      SMI     8.58  -7.86   35.9
+#>  7     2 DAX      CAC    -8.82 -14.2    18.1
+#>  8     2 DAX      FTSE   12.9   -5.75   28.3
+#>  9     3 DAX      DAX     5.08  -4.63   24.7
+#> 10     3 DAX      SMI     8.66  -7.90   36.0
 #> # i 166 more rows
 ```
 
@@ -228,29 +257,36 @@ system and impact other variables over time.
 
 ## Plotting
 
-`tidyvars` integrates the `autoplot()` method for each of its functions
-to enhance the user experience with a quick and intuitive visual
+`tidyvars` integrates the `autoplot()` method for most functions to
+enhance the user experience with a quick and intuitive visual
 representation of model outputs.
 
 See some examples bellow:
+
+``` r
+# Fitted Model
+autoplot(tv_augment(mod))
+```
+
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
 
 ``` r
 # Visualizes Impulse Response Functions
 autoplot(tv_irf(mod))
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-6-2.png" width="100%" />
 
 ``` r
 # Displays Forecast Error Variance Decomposition
 autoplot(tv_fevd(mod))
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-2.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-6-3.png" width="100%" />
 
 ``` r
 # Generates visual forecasts
 autoplot(tv_predict(mod, n.ahead = 12))
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-3.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-6-4.png" width="100%" />

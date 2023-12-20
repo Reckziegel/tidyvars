@@ -17,3 +17,13 @@ map_augment <- function(x, ...) {
     tibble::rowid_to_column()
 
 }
+
+#' @keywords internal
+check_date_col <- function(x) {
+
+  rownames(x$datamat)[[1]] |>
+    stringr::str_split(pattern = "-") |>
+    purrr::chuck(1) |>
+    length()
+
+}

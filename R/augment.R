@@ -46,7 +46,7 @@ tv_augment.varest <- function(x, ...) {
     by = c("rowid", ".asset")
   )
 
-  tibble::new_tibble(x = .out, nrow = NROW(.out), class = "tv_augment")
+  tibble::new_tibble(x = .out, nrow = NROW(.out), class = "tv_augment", .data = x)
 
 }
 
@@ -72,7 +72,7 @@ tv_augment.vec2var <- function(x, ...) {
     by = c("rowid", ".asset")
   )
 
-  tibble::new_tibble(x = .out, nrow = NROW(.out), class = "tv_augment")
+  tibble::new_tibble(x = .out, nrow = NROW(.out), class = "tv_augment", .data = x)
 
 }
 
