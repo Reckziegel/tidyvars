@@ -18,7 +18,7 @@ tv_augment(x, ...)
 \arguments{
 \item{x}{An object of the \code{varest} and \code{vec2var} class.}
 
-\item{...}{Additional objects to be pass through.}
+\item{...}{Additional objects to be pass through. Currently not used.}
 }
 \value{
 A \code{tibble}.

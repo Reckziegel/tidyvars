@@ -3,7 +3,7 @@
 #' Tidier for the \code{varest} class.
 #'
 #' @param x An object of the \code{varest} class.
-#' @param ... Additional objects to be pass through.
+#' @param ... Additional objects to be pass through. Currenttly not used.
 #'
 #' @return A \code{tibble}.
 #' @export

@@ -15,7 +15,7 @@ tv_tidy(x, ...)
 \arguments{
 \item{x}{An object of the \code{varest} class.}
 
-\item{...}{Additional objects to be pass through.}
+\item{...}{Additional objects to be pass through. Currenttly not used.}
 }
 \value{
 A \code{tibble}.

@@ -23,7 +23,7 @@ Vector Autoregressive (VAR) Models, following the “tidy data”
 philosophy. The package makes VAR modelling more accessible and
 intuitive, especially for old users of `broom`.
 
-## Why Use `tidyvars`?
+## Why Use tidyvars?
 
 Choosing `tidyvars` for working with VAR Models offers key advantages:
 
@@ -169,30 +169,18 @@ tv_predict(mod, n.ahead = 1)
 #> 2     1 SMI    7674. 7596. 7753.  78.1
 #> 3     1 CAC    3998. 3947. 4050.  51.3
 #> 4     1 FTSE   5458. 5398. 5518.  59.9
-tv_predict(mod, n.ahead = 5)
-#> # A tibble: 20 x 6
-#>    rowid .asset  fcst lower upper    CI
-#>    <int> <chr>  <dbl> <dbl> <dbl> <dbl>
-#>  1     1 DAX    5478. 5415. 5541.  63.4
-#>  2     2 DAX    5482. 5393. 5572.  89.4
-#>  3     3 DAX    5486. 5377. 5596. 109. 
-#>  4     4 DAX    5490. 5365. 5616. 126. 
-#>  5     5 DAX    5494. 5354. 5635. 140. 
-#>  6     1 SMI    7674. 7596. 7753.  78.1
-#>  7     2 SMI    7673. 7562. 7783. 111. 
-#>  8     3 SMI    7671. 7535. 7806. 135. 
-#>  9     4 SMI    7669. 7513. 7826. 156. 
-#> 10     5 SMI    7667. 7493. 7842. 175. 
-#> 11     1 CAC    3998. 3947. 4050.  51.3
-#> 12     2 CAC    4002. 3929. 4074.  72.5
-#> 13     3 CAC    4005. 3917. 4094.  88.6
-#> 14     4 CAC    4008. 3906. 4110. 102. 
-#> 15     5 CAC    4012. 3898. 4125. 114. 
-#> 16     1 FTSE   5458. 5398. 5518.  59.9
-#> 17     2 FTSE   5462. 5377. 5546.  84.4
-#> 18     3 FTSE   5465. 5362. 5568. 103. 
-#> 19     4 FTSE   5468. 5349. 5586. 118. 
-#> 20     5 FTSE   5471. 5339. 5602. 132.
+tv_predict(mod, n.ahead = 2)
+#> # A tibble: 8 x 6
+#>   rowid .asset  fcst lower upper    CI
+#>   <int> <chr>  <dbl> <dbl> <dbl> <dbl>
+#> 1     1 DAX    5478. 5415. 5541.  63.4
+#> 2     2 DAX    5482. 5393. 5572.  89.4
+#> 3     1 SMI    7674. 7596. 7753.  78.1
+#> 4     2 SMI    7673. 7562. 7783. 111. 
+#> 5     1 CAC    3998. 3947. 4050.  51.3
+#> 6     2 CAC    4002. 3929. 4074.  72.5
+#> 7     1 FTSE   5458. 5398. 5518.  59.9
+#> 8     2 FTSE   5462. 5377. 5546.  84.4
 ```
 
 For more nuanced inferences about the relationships in the model, use
@@ -221,16 +209,16 @@ tv_irf(mod)
 #> # A tibble: 176 x 6
 #>    rowid .impulse .asset  .irf .lower .upper
 #>    <int> <chr>    <chr>  <dbl>  <dbl>  <dbl>
-#>  1     1 DAX      DAX     32.4   30.1   34.4
-#>  2     1 DAX      SMI     29.8   26.7   32.6
-#>  3     1 DAX      CAC     19.5   17.9   21.2
-#>  4     1 DAX      FTSE    20.8   18.7   22.7
-#>  5     2 DAX      DAX     32.2   29.9   34.1
-#>  6     2 DAX      SMI     29.8   26.9   32.7
-#>  7     2 DAX      CAC     19.4   17.8   21.0
-#>  8     2 DAX      FTSE    20.6   18.5   22.4
-#>  9     3 DAX      DAX     32.0   29.7   33.9
-#> 10     3 DAX      SMI     29.9   27.0   32.8
+#>  1     1 DAX      DAX     32.4   29.7   34.8
+#>  2     1 DAX      SMI     29.8   26.8   33.1
+#>  3     1 DAX      CAC     19.5   17.9   21.1
+#>  4     1 DAX      FTSE    20.8   19.1   22.4
+#>  5     2 DAX      DAX     32.2   29.5   34.4
+#>  6     2 DAX      SMI     29.8   26.9   33.1
+#>  7     2 DAX      CAC     19.4   17.6   21.0
+#>  8     2 DAX      FTSE    20.6   18.8   22.3
+#>  9     3 DAX      DAX     32.0   29.4   34.1
+#> 10     3 DAX      SMI     29.9   27.1   33.2
 #> # i 166 more rows
 
 # IRF from Blanchard-Quah Decomposition
@@ -238,16 +226,16 @@ tv_irf(vars::BQ(mod))
 #> # A tibble: 176 x 6
 #>    rowid .impulse .asset  .irf .lower .upper
 #>    <int> <chr>    <chr>  <dbl>  <dbl>  <dbl>
-#>  1     1 DAX      DAX     5.23  -4.81   24.6
-#>  2     1 DAX      SMI     8.49  -7.82   35.9
-#>  3     1 DAX      CAC    -8.84 -14.2    18.1
-#>  4     1 DAX      FTSE   12.9   -5.73   28.4
-#>  5     2 DAX      DAX     5.15  -4.72   24.6
-#>  6     2 DAX      SMI     8.58  -7.86   35.9
-#>  7     2 DAX      CAC    -8.82 -14.2    18.1
-#>  8     2 DAX      FTSE   12.9   -5.75   28.3
-#>  9     3 DAX      DAX     5.08  -4.63   24.7
-#> 10     3 DAX      SMI     8.66  -7.90   36.0
+#>  1     1 DAX      DAX     5.23  -9.08   21.8
+#>  2     1 DAX      SMI     8.49 -12.1    33.7
+#>  3     1 DAX      CAC    -8.84 -12.8    16.0
+#>  4     1 DAX      FTSE   12.9  -17.2    27.3
+#>  5     2 DAX      DAX     5.15  -9.10   21.8
+#>  6     2 DAX      SMI     8.58 -12.3    33.9
+#>  7     2 DAX      CAC    -8.82 -12.7    16.0
+#>  8     2 DAX      FTSE   12.9  -17.2    27.2
+#>  9     3 DAX      DAX     5.08  -9.12   21.7
+#> 10     3 DAX      SMI     8.66 -12.5    34.0
 #> # i 166 more rows
 ```
 
@@ -290,3 +278,10 @@ autoplot(tv_predict(mod, n.ahead = 12))
 ```
 
 <img src="man/figures/README-unnamed-chunk-6-4.png" width="100%" />
+
+``` r
+# Zoom in the forecasts (last 3 months)
+autoplot(tv_predict(mod, n.ahead = 12), .n_obs = 60)
+```
+
+<img src="man/figures/README-unnamed-chunk-6-5.png" width="100%" />

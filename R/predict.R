@@ -12,6 +12,7 @@
 #' @examples
 #' model <- vars::VAR(EuStockMarkets)
 #' tv_predict(model, n.ahead = 12)
+#' tv_predict(model, n.ahead = 12, ci = 0.5) # confidence internal = 50%
 tv_predict <- function(x, n.ahead, ...) UseMethod("tv_predict", x)
 
 #' @rdname tv_predict
@@ -34,7 +35,19 @@ tv_predict.varest <- function(x, n.ahead, ...) {
     tidyr::unnest(cols = value) |>
     dplyr::relocate(rowid, .asset, dplyr::everything())
 
-  tibble::new_tibble(x = .out, nrow = NROW(.out), class = "tv_predict", .data = pred$endog, ...)
+  if (check_date_col(x) > 1) {
+
+    dates <- lubridate::as_date(rownames(x$y))
+    .out <- dplyr::mutate(.out, rowid = rep(check_time_interval(dates, n.ahead), times = x$K))
+
+  } else {
+
+    dates <- NA
+
+  }
+
+  tibble::new_tibble(x = .out, nrow = NROW(.out), class = "tv_predict",
+                     .data = x$y, n.ahead = n.ahead, dates = dates, ...)
 
 }
 

@@ -3,10 +3,10 @@
 \name{autoplot.tv_fevd}
 \alias{autoplot.tv_fevd}
 \alias{autoplot.tv_irf}
-\alias{autoplot.tv_predict}
 \alias{autoplot.tv_augment}
 \alias{autoplot.tv_tidy}
 \alias{autoplot.tv_causality}
+\alias{autoplot.tv_predict}
 \alias{plot.tv_causality}
 \alias{plot.tv_fevd}
 \alias{plot.tv_irf}
@@ -15,11 +15,9 @@
 \alias{plot.tv_tidy}
 \title{Autoplot Methods for VAR Models}
 \usage{
-\method{autoplot}{tv_fevd}(object, ...)
+\method{autoplot}{tv_fevd}(object, .impulse = NULL, .response = NULL, ...)
 
-\method{autoplot}{tv_irf}(object, ...)
-
-\method{autoplot}{tv_predict}(object, period = NULL, ...)
+\method{autoplot}{tv_irf}(object, .impulse = NULL, .response = NULL, ...)
 
 \method{autoplot}{tv_augment}(object, ...)
 
@@ -27,7 +25,7 @@
 
 \method{autoplot}{tv_causality}(object, ...)
 
-\method{autoplot}{tv_predict}(object, period = NULL, ...)
+\method{autoplot}{tv_predict}(object, .n_obs = NULL, ...)
 
 \method{plot}{tv_causality}(object, ...)
 
@@ -44,12 +42,17 @@
 \arguments{
 \item{object}{An object, whose class will determine the behavior of autoplot.}
 
+\item{.impulse}{A \code{character}. The variable to be used as impulse.
+Defaults to \code{NULL}.}
+
+\item{.response}{A \code{character}. The variable to be used as response.}
+
 \item{...}{Other arguments passed to specific methods.}
 
-\item{period}{Defaults to \code{NULL}. Only used in conjunction with \code{tv_predict()}.
-One of: \code{"day"}, \code{"week"} or \code{"month"}.}
-
 \item{type}{The column that should be plotted.}
+
+\item{.n_obs}{A \code{double}. The number of observations to be included in
+the plot.}
 }
 \value{
 A \code{ggplot2} object.

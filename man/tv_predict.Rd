@@ -28,4 +28,5 @@ Tidier for the \code{varest} class.
 \examples{
 model <- vars::VAR(EuStockMarkets)
 tv_predict(model, n.ahead = 12)
+tv_predict(model, n.ahead = 12, ci = 0.5) # confidence internal = 50\%
 }

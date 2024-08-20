@@ -22,38 +22,8 @@ tv_normality_test.default <- function(x, ...) {
 
 #' @rdname tv_normality_test
 #' @export
-tv_normality_test.varest <- function(x, ...) {
-
-  norm_test <- vars::normality.test(x, ...)
-
-  .out <- tibble::enframe(norm_test$jb.mul, name = ".test") |>
-    dplyr::mutate(
-      .statistic = purrr::map_dbl(.x = value, .f = "statistic"),
-      .parameter = purrr::map_dbl(.x = value, .f = "parameter"),
-      .p.value   = purrr::map_dbl(.x = value, .f = "p.value"),
-      .method    = purrr::map_chr(.x = value, .f = "method")
-    ) |>
-    dplyr::select(-value)
-
-  tibble::new_tibble(x = .out, nrow = NROW(.out), class = "tv_normality_test")
-
-}
+tv_normality_test.varest <- function(x, ...) tidy_normality_test(x, ...)
 
 #' @rdname tv_normality_test
 #' @export
-tv_normality_test.vec2var <- function(x, ...) {
-
-  norm_test <- vars::normality.test(x, ...)
-
-  .out <- tibble::enframe(norm_test$jb.mul, name = ".test") |>
-    dplyr::mutate(
-      .statistic = purrr::map_dbl(.x = value, .f = "statistic"),
-      .parameter = purrr::map_dbl(.x = value, .f = "parameter"),
-      .p.value   = purrr::map_dbl(.x = value, .f = "p.value"),
-      .method    = purrr::map_chr(.x = value, .f = "method")
-    ) |>
-    dplyr::select(-value)
-
-  tibble::new_tibble(x = .out, nrow = NROW(.out), class = "tv_normality_test")
-
-}
+tv_normality_test.vec2var <- function(x, ...) tidy_normality_test(x, ...)

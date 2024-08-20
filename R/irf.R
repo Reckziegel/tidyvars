@@ -22,75 +22,13 @@ tv_irf.default <- function(x, ...) {
 
 #' @rdname tv_irf
 #' @export
-tv_irf.varest <- function(x, ...) {
-
-  impulse <- vars::irf(x, ...)
-
-  .irf <- map_irf(impulse$irf) |>
-    tidyr::pivot_longer(cols = -c("rowid", ".impulse"), names_to = ".asset", values_to = ".irf")
-
-  .lower <- map_irf(impulse$Lower) |>
-    tidyr::pivot_longer(cols = -c("rowid", ".impulse"), names_to = ".asset", values_to = ".lower")
-
-  .upper <- map_irf(impulse$Upper) |>
-    tidyr::pivot_longer(cols = -c("rowid", ".impulse"), names_to = ".asset", values_to = ".upper")
-
-  .out <- purrr::reduce(
-    .x = list(.irf, .lower, .upper),
-    .f = dplyr::left_join,
-    by = c("rowid", ".impulse", ".asset")
-  )
-
-  tibble::new_tibble(x = .out, nrow = NROW(.out), class = "tv_irf")
-
-}
+tv_irf.varest <- function(x, ...) tidy_impulses(x, ...)
 
 #' @rdname tv_irf
 #' @export
-tv_irf.vec2var <- function(x, ...) {
-
-  impulse <- vars::irf(x, ...)
-
-  .irf <- map_irf(impulse$irf) |>
-    tidyr::pivot_longer(cols = -c("rowid", ".impulse"), names_to = ".asset", values_to = ".irf")
-
-  .lower <- map_irf(impulse$Lower) |>
-    tidyr::pivot_longer(cols = -c("rowid", ".impulse"), names_to = ".asset", values_to = ".lower")
-
-  .upper <- map_irf(impulse$Upper) |>
-    tidyr::pivot_longer(cols = -c("rowid", ".impulse"), names_to = ".asset", values_to = ".upper")
-
-  .out <- purrr::reduce(
-    .x = list(.irf, .lower, .upper),
-    .f = dplyr::left_join,
-    by = c("rowid", ".impulse", ".asset")
-  )
-
-  tibble::new_tibble(x = .out, nrow = NROW(.out), class = "tv_irf")
-
-}
+tv_irf.vec2var <- function(x, ...) tidy_impulses(x, ...)
 
 #' @rdname tv_irf
 #' @export
-tv_irf.svarest <- function(x, ...) {
+tv_irf.svarest <- function(x, ...) tidy_impulses(x, ...)
 
-  impulse <- vars::irf(x, ...)
-
-  .irf <- map_irf(impulse$irf) |>
-    tidyr::pivot_longer(cols = -c("rowid", ".impulse"), names_to = ".asset", values_to = ".irf")
-
-  .lower <- map_irf(impulse$Lower) |>
-    tidyr::pivot_longer(cols = -c("rowid", ".impulse"), names_to = ".asset", values_to = ".lower")
-
-  .upper <- map_irf(impulse$Upper) |>
-    tidyr::pivot_longer(cols = -c("rowid", ".impulse"), names_to = ".asset", values_to = ".upper")
-
-  .out <- purrr::reduce(
-    .x = list(.irf, .lower, .upper),
-    .f = dplyr::left_join,
-    by = c("rowid", ".impulse", ".asset")
-  )
-
-  tibble::new_tibble(x = .out, nrow = NROW(.out), class = "tv_irf")
-
-}

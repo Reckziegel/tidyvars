@@ -38,7 +38,7 @@ Vector Autoregressive (VAR) Models, following the "tidy data"
 philosophy. The package makes VAR modelling more accessible and
 intuitive, especially for old users of `broom`.
 
-## Why Use `tidyvars`?
+## Why Use tidyvars?
 
 Choosing `tidyvars` for working with VAR Models offers key advantages:
 
@@ -113,7 +113,7 @@ be easily accomplished with `tv_predict()`:
 ```{r}
 # Generates forecasts from the VAR model
 tv_predict(mod, n.ahead = 1)
-tv_predict(mod, n.ahead = 5)
+tv_predict(mod, n.ahead = 2)
 ```
 
 For more nuanced inferences about the relationships in
@@ -151,4 +151,6 @@ autoplot(tv_irf(mod))
 autoplot(tv_fevd(mod))
 # Generates visual forecasts
 autoplot(tv_predict(mod, n.ahead = 12))
+# Zoom in the forecasts (last 3 months)
+autoplot(tv_predict(mod, n.ahead = 12), .n_obs = 60)
 ```

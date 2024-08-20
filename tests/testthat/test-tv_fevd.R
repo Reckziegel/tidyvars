@@ -1,8 +1,8 @@
 library(tidyvars)
 
-x <- vars::VAR(EuStockMarkets, p = 2)
+x    <- vars::VAR(EuStockMarkets, p = 2)
 cajo <- urca::ca.jo(EuStockMarkets)
-v2v <- vars::vec2var(cajo, r = 1)
+v2v  <- vars::vec2var(cajo, r = 1)
 
 test_that("tv_fevd works", {
 

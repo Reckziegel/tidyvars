@@ -7,7 +7,7 @@
 #' Augment for the \code{varest} and \code{vec2var} class.
 #'
 #' @param x An object of the \code{varest} and \code{vec2var} class.
-#' @param ... Additional objects to be pass through.
+#' @param ... Additional objects to be pass through. Currently not used.
 #'
 #' @return A \code{tibble}.
 #' @export
@@ -29,22 +29,24 @@ tv_augment.default <- function(x, ...) {
 tv_augment.varest <- function(x, ...) {
 
   # extract original data
-  y <- map_augment(x$y) |>
-    tidyr::pivot_longer(cols = -rowid, names_to = ".asset", values_to = ".x")
-
+  y <- map_augment(x$y, values_to = ".x")
   # extract fitted values
-  fit <- map_augment(stats::fitted(x)) |>
-    tidyr::pivot_longer(cols = -rowid, names_to = ".asset", values_to = ".fitted")
-
+  fit <- map_augment(stats::fitted(x), values_to = ".fitted")
   # extract residuals
-  res <- map_augment(stats::residuals(x)) |>
-    tidyr::pivot_longer(cols = -rowid, names_to = ".asset", values_to = ".resid")
+  res <- map_augment(stats::residuals(x), values_to = ".resid")
 
   .out <- purrr::reduce(
     .x = list(y, fit, res),
     .f = dplyr::left_join,
     by = c("rowid", ".asset")
   )
+
+  if (check_date_col(x) > 1) {
+
+    dates <- lubridate::as_date(rownames(x$y))
+    .out <- dplyr::mutate(.out, rowid = rep(dates, each = x$K))
+
+  }
 
   tibble::new_tibble(x = .out, nrow = NROW(.out), class = "tv_augment", .data = x)
 
@@ -55,22 +57,24 @@ tv_augment.varest <- function(x, ...) {
 tv_augment.vec2var <- function(x, ...) {
 
   # extract original data
-  y <- map_augment(x$y) |>
-    tidyr::pivot_longer(cols = -rowid, names_to = ".asset", values_to = ".x")
-
+  y <- map_augment(x$y, values_to = ".x")
   # extract fitted values
-  fit <- map_augment(stats::fitted(x)) |>
-    tidyr::pivot_longer(cols = -rowid, names_to = ".asset", values_to = ".fitted")
-
+  fit <- map_augment(stats::fitted(x), values_to = ".fitted")
   # extract residuals
-  res <- map_augment(stats::residuals(x)) |>
-    tidyr::pivot_longer(cols = -rowid, names_to = ".asset", values_to = ".resid")
+  res <- map_augment(stats::residuals(x), values_to = ".resid")
 
   .out <- purrr::reduce(
     .x = list(y, fit, res),
     .f = dplyr::left_join,
     by = c("rowid", ".asset")
   )
+
+  if (check_date_col(x) > 1) {
+
+    dates <- lubridate::as_date(rownames(x$y))
+    .out <- dplyr::mutate(.out, rowid = rep(dates, each = x$K))
+
+  }
 
   tibble::new_tibble(x = .out, nrow = NROW(.out), class = "tv_augment", .data = x)
 
