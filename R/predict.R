@@ -18,36 +18,52 @@ tv_predict <- function(x, n.ahead, ...) UseMethod("tv_predict", x)
 #' @rdname tv_predict
 #' @export
 tv_predict.default <- function(x, n.ahead, ...) {
-  rlang::abort(message = paste0("No `tv_predict` method for objects of class", class(x), "."))
+  rlang::abort(message = paste0("No `tv_predict` method for objects of class ", class(x), "."))
 }
 
 #' @rdname tv_predict
 #' @export
 tv_predict.varest <- function(x, n.ahead, ...) {
-
   assertthat::assert_that(assertthat::is.number(n.ahead))
 
+  # 1. Tidy History
+  history <- map_augment(x$y, values_to = ".x") |>
+    dplyr::mutate(
+      type = "history",
+      fcst = NA_real_,
+      lower = NA_real_,
+      upper = NA_real_
+    )
+
+  # 2. Tidy Forecast
   pred <- stats::predict(x, n.ahead = n.ahead, ...)
+  assets <- names(pred$fcst)
 
-  .out <- purrr::map(pred$fcst, tibble::as_tibble) |>
-    purrr::map(tibble::rowid_to_column) |>
-    tibble::enframe(name = ".asset") |>
-    tidyr::unnest(cols = value) |>
-    dplyr::relocate(rowid, .asset, dplyr::everything())
+  is_date <- check_date_col(x) > 1
 
-  if (check_date_col(x) > 1) {
-
-    dates <- lubridate::as_date(rownames(x$y))
-    .out <- dplyr::mutate(.out, rowid = rep(check_time_interval(dates, n.ahead), times = x$K))
-
+  if (is_date) {
+    dates_vec <- lubridate::as_date(rownames(x$y))
+    forecast_rowids <- check_time_interval(dates_vec, n.ahead)
   } else {
-
-    dates <- NA
-
+    n_hist <- nrow(x$y)
+    forecast_rowids <- seq_len(n.ahead) + n_hist
   }
 
-  tibble::new_tibble(x = .out, nrow = NROW(.out), class = "tv_predict",
-                     .data = x$y, n.ahead = n.ahead, dates = dates, ...)
+  forecast <- purrr::map_df(assets, function(a) {
+    tibble::tibble(
+      rowid = forecast_rowids,
+      .asset = a,
+      .x = pred$fcst[[a]],
+      fcst = pred$fcst[[a]],
+      lower = pred$lower[[a]],
+      upper = pred$upper[[a]],
+      type = "forecast"
+    )
+  })
 
+  # 3. Combine
+  combined <- dplyr::bind_rows(history, forecast) |>
+    dplyr::arrange(rowid, .asset)
+
+  tibble::as_tibble(combined, class = c("tv_predict", class(combined)))
 }
-

@@ -1,7 +1,3 @@
-# @importFrom generics augment
-# @export
-#generics::augment
-
 #' Augment a VAR model
 #'
 #' Augment for the \code{varest} and \code{vec2var} class.

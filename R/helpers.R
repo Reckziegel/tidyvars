@@ -115,6 +115,12 @@ check_time_interval <- function(x, n.ahead, ...) {
   } else if (all(date_diff >= 28 & date_diff <= 31)) {
     period <- "monthly"
     utils::tail(x, 1) %m+% months(1:n.ahead)
+  } else if (all(date_diff >= 90 & date_diff <= 92)) {
+    period <- "quarterly"
+    utils::tail(x, 1) %m+% months(3 * (1:n.ahead))
+  } else if (all(date_diff >= 365 & date_diff <= 366)) {
+    period <- "yearly"
+    utils::tail(x, 1) %m+% lubridate::years(1:n.ahead)
   } else {
     period <- "iregular"
   }
