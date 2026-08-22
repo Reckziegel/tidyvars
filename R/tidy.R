@@ -1,70 +1,107 @@
-#' Tidy a VAR Model
+# R/tidy.R ----------------------------------------------------------------
+
+#' Tidy VAR model coefficients
 #'
-#' Tidier for the \code{varest} class.
+#' Converts coefficient estimates from a supported VAR model into a tidy
+#' tibble. Each row represents one estimated coefficient in one equation
+#' of the VAR.
 #'
-#' @param x An object of the \code{varest} class.
-#' @param ... Additional objects to be pass through. Currently not used.
+#' @param x A supported VAR model object.
+#' @param ... Additional arguments passed to methods.
 #'
-#' @return A \code{tibble}.
+#' @return
+#' A tibble with one row per coefficient-equation pair and the following
+#' columns:
+#' \describe{
+#'   \item{equation}{Character. Equation of the VAR.}
+#'   \item{term}{Character. Model term associated with the coefficient.}
+#'   \item{estimate}{Double. Estimated coefficient.}
+#'   \item{std_error}{Double. Standard error of the estimate.}
+#'   \item{statistic}{Double. t statistic for the coefficient.}
+#'   \item{p_value}{Double. p-value associated with the t statistic.}
+#' }
+#'
+#' @details
+#' `tv_tidy()` currently provides inferential coefficient statistics for
+#' `varest` objects. The values are extracted from the coefficient tables
+#' exposed by the corresponding \code{vars} model.
+#'
+#' The `equation` and `term` columns are returned as character vectors.
+#' Their ordering and representation are not modified for plotting purposes.
+#'
 #' @export
 #'
 #' @examples
 #' model <- vars::VAR(EuStockMarkets)
-#'
 #' tv_tidy(model)
-tv_tidy <- function(x, ...) UseMethod("tv_tidy", x)
+tv_tidy <- function(x, ...) {
+  UseMethod("tv_tidy")
+}
 
 #' @rdname tv_tidy
 #' @export
 tv_tidy.default <- function(x, ...) {
-  rlang::abort(message = paste0("No `tv_tidy` method for objects of class ", class(x), "."))
+  class_name <- class(x)[[1]]
+
+  cli::cli_abort(
+    "No {.fn tv_tidy} method for objects of class {.cls {class_name}}."
+  )
 }
 
 #' @rdname tv_tidy
 #' @export
 tv_tidy.varest <- function(x, ...) {
-  .summary <- summary(x)
-  tv_extract_coefficients(.summary$varresult, .summary$names)
+  tidy_varest_coefficients(x)
 }
 
 #' @rdname tv_tidy
 #' @export
 tv_tidy.vec2var <- function(x, ...) {
-  .summary <- summary(x)
-  tv_extract_coefficients(.summary$varresult, .summary$names)
+  cli::cli_abort(c(
+    "{.fn tv_tidy} does not currently support {.cls vec2var} objects.",
+    "i" = paste(
+      "{.pkg vars} does not expose coefficient standard errors,",
+      "t statistics, and p-values for the transformed VAR in levels."
+    )
+  ))
 }
 
+#' Extract tidy coefficients from a varest object
+#'
+#' @param x A `varest` object.
+#'
+#' @return A `tv_tidy` tibble.
 #' @keywords internal
-tv_extract_coefficients <- function(varresult, names) {
-  .n_coefs <- NROW(varresult[[1]]$coefficients)
+tidy_varest_coefficients <- function(x) {
 
-  .out <- varresult |>
-    purrr::map("coefficients") |>
-    purrr::map(as.data.frame) |>
-    purrr::map(tibble::rownames_to_column) |>
-    dplyr::bind_rows() |>
-    tibble::as_tibble()
+  out <- stats::coef(x) |>
 
-  .out <- .out |>
-    dplyr::mutate(
-      group     = rep(x = names, each = .n_coefs),
-      term      = rowname,
-      estimate  = Estimate,
-      std.error = `Std. Error`,
-      statistic = `t value`,
-      p.value   = `Pr(>|t|)`,
-      .keep     = "none"
-    ) |>
-    dplyr::mutate(term = forcats::fct_reorder(forcats::as_factor(term), statistic))
+    purrr::imap_dfr(
 
-  tibble::as_tibble(x = .out, class = c("tv_tidy", class(.out)))
+      \(coefficients, equation) {
+        coefficients |>
+          tibble::as_tibble(rownames = "term") |>
+          dplyr::transmute(
+            equation  = equation,
+            term      = .data$term,
+            estimate  = .data$Estimate,
+            std_error = .data$`Std. Error`,
+            statistic = .data$`t value`,
+            p_value   = .data$`Pr(>|t|)`
+          )
+      }
+
+    )
+
+  tibble::new_tibble(
+    out,
+    nrow = nrow(out),
+    class = "tv_tidy"
+  )
+
 }
 
-# @importFrom generics tidy
-# @export
-#generics::tidy
 
 
-# @importFrom generics tidy
-# @export
-#generics::tidy
+
+

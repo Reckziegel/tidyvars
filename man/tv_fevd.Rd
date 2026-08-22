@@ -5,7 +5,7 @@
 \alias{tv_fevd.default}
 \alias{tv_fevd.varest}
 \alias{tv_fevd.vec2var}
-\title{Tidy Forecast Error Variance Decomposition}
+\title{Tidy forecast error variance decomposition}
 \usage{
 tv_fevd(x, ...)
 
@@ -16,18 +16,42 @@ tv_fevd(x, ...)
 \method{tv_fevd}{vec2var}(x, ...)
 }
 \arguments{
-\item{x}{An object of the \code{varest} and \code{vec2var} class.}
+\item{x}{A supported VAR model object. Currently supports objects of class
+`varest` and `vec2var`.}
 
-\item{...}{Additional objects to be pass through.}
+\item{...}{Additional arguments passed to [vars::fevd()], such as
+`n.ahead`.}
 }
 \value{
-A \code{tibble}.
+A tibble with one row per response-shock-horizon combination and the
+following columns:
+\describe{
+  \item{horizon}{Integer. Forecast horizon, starting at one.}
+  \item{response}{Character. Variable whose forecast error variance is
+  decomposed.}
+  \item{shock}{Character. Shock contributing to the forecast error
+  variance.}
+  \item{contribution}{Double. Proportion of the forecast error variance
+  attributable to the shock.}
+}
+
+For `n.ahead = n`, the result contains horizons from `1` through `n`,
+inclusive. For each combination of `horizon` and `response`, the
+contributions across shocks sum to one, up to numerical precision.
 }
 \description{
-Tidier for the \code{varest} and \code{vec2var} class.
+Computes the forecast error variance decomposition using [vars::fevd()]
+and converts the result to a tidy tibble.
+}
+\details{
+Each row represents the contribution of one shock to the forecast error
+variance of one response variable at one forecast horizon.
 }
 \examples{
 model <- vars::VAR(EuStockMarkets)
 
-tv_fevd(model)
+tv_fevd(model, n.ahead = 5)
+}
+\seealso{
+[vars::fevd()]
 }

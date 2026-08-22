@@ -4,27 +4,48 @@
 \alias{tv_tidy}
 \alias{tv_tidy.default}
 \alias{tv_tidy.varest}
-\title{Tidy a VAR Model}
+\alias{tv_tidy.vec2var}
+\title{Tidy VAR model coefficients}
 \usage{
 tv_tidy(x, ...)
 
 \method{tv_tidy}{default}(x, ...)
 
 \method{tv_tidy}{varest}(x, ...)
+
+\method{tv_tidy}{vec2var}(x, ...)
 }
 \arguments{
-\item{x}{An object of the \code{varest} class.}
+\item{x}{A supported VAR model object.}
 
-\item{...}{Additional objects to be pass through. Currenttly not used.}
+\item{...}{Additional arguments passed to methods.}
 }
 \value{
-A \code{tibble}.
+A tibble with one row per coefficient-equation pair and the following
+columns:
+\describe{
+  \item{equation}{Character. Equation of the VAR.}
+  \item{term}{Character. Model term associated with the coefficient.}
+  \item{estimate}{Double. Estimated coefficient.}
+  \item{std_error}{Double. Standard error of the estimate.}
+  \item{statistic}{Double. t statistic for the coefficient.}
+  \item{p_value}{Double. p-value associated with the t statistic.}
+}
 }
 \description{
-Tidier for the \code{varest} class.
+Converts coefficient estimates from a supported VAR model into a tidy
+tibble. Each row represents one estimated coefficient in one equation
+of the VAR.
+}
+\details{
+`tv_tidy()` currently provides inferential coefficient statistics for
+`varest` objects. The values are extracted from the coefficient tables
+exposed by the corresponding \code{vars} model.
+
+The `equation` and `term` columns are returned as character vectors.
+Their ordering and representation are not modified for plotting purposes.
 }
 \examples{
 model <- vars::VAR(EuStockMarkets)
-
 tv_tidy(model)
 }

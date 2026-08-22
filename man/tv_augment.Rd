@@ -16,18 +16,33 @@ tv_augment(x, ...)
 \method{tv_augment}{vec2var}(x, ...)
 }
 \arguments{
-\item{x}{An object of the \code{varest} and \code{vec2var} class.}
+\item{x}{A supported VAR model object.}
 
-\item{...}{Additional objects to be pass through. Currently not used.}
+\item{...}{Additional arguments passed to methods. Currently unused.}
 }
 \value{
-A \code{tibble}.
+A tibble with one row per variable-observation pair and the following
+columns:
+\describe{
+  \item{index}{Observation index from the original series.}
+  \item{variable}{Character. Variable of the VAR.}
+  \item{observed}{Double. Observed value.}
+  \item{fitted}{Double. Fitted value.}
+  \item{residual}{Double. Model residual.}
+}
+
+Observations unavailable for model fitting because of the VAR lag
+structure have `NA` in `fitted` and `residual`.
 }
 \description{
-Augment for the \code{varest} and \code{vec2var} class.
+Converts observed values, fitted values, and residuals from a supported
+VAR model into a tidy tibble.
+}
+\details{
+Each row represents one variable at one observation of the original
+time series.
 }
 \examples{
 model <- vars::VAR(EuStockMarkets)
-
 tv_augment(model)
 }

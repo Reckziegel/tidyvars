@@ -4,29 +4,44 @@
 \alias{tv_predict}
 \alias{tv_predict.default}
 \alias{tv_predict.varest}
-\title{Tidy Predict}
+\title{Tidy VAR forecasts}
 \usage{
-tv_predict(x, n.ahead, ...)
+tv_predict(x, n_ahead, level = 0.95, ...)
 
-\method{tv_predict}{default}(x, n.ahead, ...)
+\method{tv_predict}{default}(x, n_ahead, level = 0.95, ...)
 
-\method{tv_predict}{varest}(x, n.ahead, ...)
+\method{tv_predict}{varest}(x, n_ahead, level = 0.95, ...)
 }
 \arguments{
-\item{x}{An object of the \code{varest} class.}
+\item{x}{A `varest` object.}
 
-\item{n.ahead}{The number of periods ahead in which the prediction should be made.}
+\item{n_ahead}{A positive whole number giving the number of forecast
+periods.}
 
-\item{...}{Additional objects to be pass through.}
+\item{level}{One or more confidence levels between 0 and 1.}
+
+\item{...}{Additional arguments passed to [stats::predict()], such as
+`dumvar`. The `ci` argument should not be supplied directly; use
+`level` instead.}
 }
 \value{
-A \code{tibble}.
+A `tv_predict` tibble with columns:
+  `index`, `variable`, `type`, `level`, `observed`, `estimate`, `lower`,
+  and `upper`.
 }
 \description{
-Tidier for the \code{varest} class.
+Converts forecasts from a `varest` model into a tidy, self-contained
+representation containing both the observed history and future forecasts.
+}
+\details{
+Historical observations are represented once for each variable and index.
+Forecast observations are represented once for each variable, index, and
+confidence level.
 }
 \examples{
 model <- vars::VAR(EuStockMarkets)
-tv_predict(model, n.ahead = 12)
-tv_predict(model, n.ahead = 12, ci = 0.5) # confidence internal = 50\%
+
+tv_predict(model, n_ahead = 12)
+tv_predict(model, n_ahead = 12, level = 0.80)
+tv_predict(model, n_ahead = 12, level = c(0.50, 0.75, 0.90))
 }

@@ -4,7 +4,7 @@
 \alias{tv_causality}
 \alias{tv_causality.default}
 \alias{tv_causality.varest}
-\title{Tidy Causality Test}
+\title{Tidy causality tests}
 \usage{
 tv_causality(x, ...)
 
@@ -13,18 +13,46 @@ tv_causality(x, ...)
 \method{tv_causality}{varest}(x, ...)
 }
 \arguments{
-\item{x}{An object of the \code{varest} class.}
+\item{x}{A `varest` model object.}
 
-\item{...}{Additional objects to be pass through.}
+\item{...}{Additional arguments passed to [vars::causality()], such as
+`vcov.`, `boot`, and `boot.runs`. The `cause` argument is managed
+internally by `tv_causality()`.}
 }
 \value{
-A \code{tibble}.
+A tibble with one row per cause-test combination and the following
+columns:
+\describe{
+  \item{cause}{Character. Variable considered as the cause.}
+  \item{test}{Character. Type of causality test.}
+  \item{statistic}{Double. Test statistic.}
+  \item{df}{Double. Degrees of freedom when represented by one parameter.}
+  \item{df1}{Double. Numerator degrees of freedom for an F test.}
+  \item{df2}{Double. Denominator degrees of freedom for an F test.}
+  \item{boot_runs}{Double. Number of bootstrap replications when the
+  Granger test is bootstrapped.}
+  \item{p_value}{Double. p-value associated with the test statistic.}
+  \item{method}{Character. Description of the statistical test.}
+}
+
+Parameter columns that do not apply to a given test are returned as `NA`.
+For a non-bootstrapped Granger test, `df1` and `df2` are populated. For a
+bootstrapped Granger test, `boot_runs` is populated instead. Instantaneous
+causality uses `df`.
 }
 \description{
-Tidier for the \code{varest} class.
+Computes Granger and instantaneous causality tests using
+[vars::causality()] and converts the results to a tidy tibble.
+}
+\details{
+Each row represents one causality test for one variable considered as
+the cause.
 }
 \examples{
 model <- vars::VAR(EuStockMarkets)
 
 tv_causality(model)
+}
+\seealso{
+[vars::causality()]
 }

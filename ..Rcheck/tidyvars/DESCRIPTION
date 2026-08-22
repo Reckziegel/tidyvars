@@ -1,0 +1,22 @@
+Package: tidyvars
+Type: Package
+Title: Extends broom for VAR models
+Version: 0.1.0
+Author: Bernardo Reckziegel
+Maintainer: Bernardo Reckziegel <bernardo_cse@hotmail.com>
+Description: Extends broom for VAR, SVAR and SVEC models.
+License: MIT + file LICENSE
+URL: https://github.com/Reckziegel/tidyvars,
+        https://reckziegel.github.io/tidyvars/
+BugReports: https://github.com/Reckziegel/tidyvars/issues
+Encoding: UTF-8
+LazyData: false
+Depends: R (>= 4.1.0)
+Imports: broom (>= 1.0.13), cli (>= 3.6.6), dplyr (>= 1.2.1), ggplot2
+        (>= 4.0.3), lubridate (>= 1.9.5), purrr (>= 1.2.2), rlang (>=
+        1.3.0), scales (>= 1.4.0), stats, tibble (>= 3.3.1), tidyr (>=
+        1.3.2), utils, vars (>= 1.6.1), S7 (>= 0.2.2)
+Suggests: testthat (>= 3.3.2), urca (>= 1.3.4)
+Config/testthat/edition: 3
+Config/roxygen2/version: 8.1.0
+Built: R 4.6.1; ; 2026-08-21 23:52:34 UTC; windows

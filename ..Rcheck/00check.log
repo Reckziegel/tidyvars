@@ -1,0 +1,89 @@
+* using log directory 'C:/Users/USUARIO/OneDrive/R/tidyvars/..Rcheck'
+* using R version 4.6.1 (2026-06-24 ucrt)
+* using platform: x86_64-w64-mingw32
+* R was compiled by
+    gcc.exe (GCC) 14.3.0
+    GNU Fortran (GCC) 14.3.0
+* running under: Windows 11 x64 (build 26200)
+* using session charset: UTF-8
+* current time: 2026-08-21 23:51:49 UTC
+* using options '--no-manual --as-cran'
+* checking for file './DESCRIPTION' ... OK
+* checking extension type ... Package
+* this is package 'tidyvars' version '0.1.0'
+* package encoding: UTF-8
+* checking CRAN incoming feasibility ... [33s] NOTE
+Maintainer: 'Bernardo Reckziegel <bernardo_cse@hotmail.com>'
+
+New submission
+
+No Authors@R field in DESCRIPTION.
+Please add one, modifying
+  Authors@R: person(given = "Bernardo",
+                    family = "Reckziegel",
+                    role = c("aut", "cre"),
+                    email = "bernardo_cse@hotmail.com")
+as necessary.
+
+The Title field should be in title case. Current version is:
+  'Extends broom for VAR models'
+In title case that is:
+  'Extends Broom for VAR Models'
+
+The build time stamp is missing.
+* checking package namespace information ... OK
+* checking package dependencies ... OK
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... NOTE
+Found the following hidden files and directories:
+  .Rhistory
+  .github/.gitignore
+  .gitignore
+  ..Rcheck
+  .Rproj.user
+  .git
+  .github
+These were most likely included in error. See section 'Package
+structure' in the 'Writing R Extensions' manual.
+
+CRAN-pack does not know about
+  ..Rcheck
+  .git
+  .github
+* checking for portable file names ... ERROR
+Found the following file with a non-portable file name:
+  nul
+These are not valid file names on all R platforms.
+Please rename the files and try again.
+See section 'Package structure' in the 'Writing R Extensions' manual.
+ NOTE
+Found the following non-portable file paths:
+  tidyvars/docs/deps/bootstrap-5.3.1/fonts/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0Rk0ZjaVQ.woff
+  tidyvars/docs/deps/bootstrap-5.3.1/fonts/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0Rk5hkWVAexg.woff
+  tidyvars/docs/deps/bootstrap-5.3.1/fonts/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0Rk5hkaVQ.woff
+  tidyvars/docs/deps/bootstrap-5.3.1/fonts/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0Rk8ZkWVAexg.woff
+  tidyvars/docs/deps/bootstrap-5.3.1/fonts/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0Rk8ZkaVQ.woff
+  tidyvars/docs/deps/bootstrap-5.3.1/fonts/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0Rk_RkaVQ.woff
+  tidyvars/docs/deps/bootstrap-5.3.1/fonts/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0RkxhjaVQ.woff
+  tidyvars/docs/deps/bootstrap-5.3.1/fonts/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0RkyFjWVAexg.woff
+  tidyvars/docs/deps/bootstrap-5.3.1/fonts/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0RkyFjaVQ.woff
+  tidyvars/docs/deps/bootstrap-5.3.1/fonts/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsg-1x4gaVQ.woff
+  tidyvars/docs/deps/bootstrap-5.3.1/fonts/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsg-1y4k.woff
+  tidyvars/docs/deps/bootstrap-5.3.1/fonts/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsgH1y4k.woff
+  tidyvars/docs/deps/bootstrap-5.3.1/fonts/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgshZ1y4k.woff
+  tidyvars/docs/deps/bootstrap-5.3.1/fonts/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsiH0B4gaVQ.woff
+  tidyvars/docs/deps/bootstrap-5.3.1/fonts/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsiH0C4k.woff
+  tidyvars/docs/deps/bootstrap-5.3.1/fonts/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVQ.woff
+  tidyvars/docs/deps/bootstrap-5.3.1/fonts/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0C4k.woff
+  tidyvars/docs/deps/bootstrap-5.3.1/fonts/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjr0C4k.woff
+
+Tarballs are only required to store paths of up to 100 bytes and cannot
+store those of more than 256 bytes, with restrictions including to 100
+bytes for the final component.
+See section 'Package structure' in the 'Writing R Extensions' manual.
+* checking whether package 'tidyvars' can be installed ... [19s] OK
+* checking installed package size ... OK
+* checking package directory ... OK
+* checking for future file timestamps ...
