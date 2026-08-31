@@ -6,7 +6,7 @@
 \alias{tv_irf.varest}
 \alias{tv_irf.vec2var}
 \alias{tv_irf.svarest}
-\title{Tidy Impulse-Response Function}
+\title{Tidy impulse-response functions}
 \usage{
 tv_irf(x, ...)
 
@@ -19,18 +19,49 @@ tv_irf(x, ...)
 \method{tv_irf}{svarest}(x, ...)
 }
 \arguments{
-\item{x}{An object of the \code{varest}, \code{vec2var} and \code{svarest} class.}
+\item{x}{A supported VAR model object. Currently supports objects of class
+`varest`, `vec2var`, and `svarest`.}
 
-\item{...}{Additional objects to be pass through.}
+\item{...}{Additional arguments passed to [vars::irf()], such as `impulse`,
+`response`, `n.ahead`, `ortho`, `cumulative`, `boot`, `ci`, `runs`, and
+`seed`.}
 }
 \value{
-A \code{tibble}.
+A tibble with one row per impulse-response-horizon combination and the
+following columns:
+\describe{
+  \item{horizon}{Integer. Horizon of the impulse response, starting at zero.}
+  \item{impulse}{Character. Variable receiving the shock.}
+  \item{response}{Character. Variable responding to the shock.}
+  \item{estimate}{Double. Estimated impulse-response coefficient.}
+  \item{lower}{Double. Lower bootstrap confidence bound.}
+  \item{upper}{Double. Upper bootstrap confidence bound.}
+}
+
+When `boot = FALSE`, `lower` and `upper` are returned as `NA`.
+
+For `n.ahead = n`, the result contains horizons from `0` through `n`,
+inclusive.
 }
 \description{
-Tidier for the \code{varest}, \code{vec2var} and \code{svarest} class.
+Computes impulse-response functions using [vars::irf()] and converts the
+result to a tidy tibble.
+}
+\details{
+Each row represents the response of one variable to one impulse at one
+horizon.
 }
 \examples{
 model <- vars::VAR(EuStockMarkets)
 
-tv_irf(model)
+tv_irf(
+  model,
+  impulse = "DAX",
+  response = "SMI",
+  n.ahead = 5,
+  boot = FALSE
+)
+}
+\seealso{
+[vars::irf()]
 }

@@ -5,29 +5,97 @@
 \alias{tv_serial_test.default}
 \alias{tv_serial_test.varest}
 \alias{tv_serial_test.vec2var}
-\title{Tidy Residuals Test}
+\title{Tidy VAR serial correlation test}
 \usage{
-tv_serial_test(x, ...)
+tv_serial_test(
+  x,
+  lags_pt = 16,
+  lags_bg = 5,
+  type = c("PT.asymptotic", "PT.adjusted", "BG", "ES"),
+  ...
+)
 
-\method{tv_serial_test}{default}(x, ...)
+\method{tv_serial_test}{default}(
+  x,
+  lags_pt = 16,
+  lags_bg = 5,
+  type = c("PT.asymptotic", "PT.adjusted", "BG", "ES"),
+  ...
+)
 
-\method{tv_serial_test}{varest}(x, ...)
+\method{tv_serial_test}{varest}(
+  x,
+  lags_pt = 16,
+  lags_bg = 5,
+  type = c("PT.asymptotic", "PT.adjusted", "BG", "ES"),
+  ...
+)
 
-\method{tv_serial_test}{vec2var}(x, ...)
+\method{tv_serial_test}{vec2var}(
+  x,
+  lags_pt = 16,
+  lags_bg = 5,
+  type = c("PT.asymptotic", "PT.adjusted", "BG", "ES"),
+  ...
+)
 }
 \arguments{
-\item{x}{An object of the \code{varest} and \code{vec2var} class.}
+\item{x}{A supported VAR model object. Currently supports objects of class
+`varest` and `vec2var`.}
 
-\item{...}{Additional objects to be pass through.}
+\item{lags_pt}{Integer. Number of lags used by the Portmanteau tests.}
+
+\item{lags_bg}{Integer. Number of lags used by the Breusch-Godfrey and
+Edgerton-Shukur tests.}
+
+\item{type}{Character. Serial correlation test to compute. One of
+`"PT.asymptotic"`, `"PT.adjusted"`, `"BG"`, or `"ES"`.}
+
+\item{...}{Reserved for extensions. Currently must be empty.}
 }
 \value{
-A \code{tibble}.
+A one-row tibble with the following columns:
+\describe{
+  \item{test}{Character. Identifier of the serial correlation test.}
+  \item{lags}{Integer. Number of lags used by the test.}
+  \item{statistic}{Double. Test statistic.}
+  \item{df}{Double. Degrees of freedom for chi-squared tests.}
+  \item{df1}{Double. Numerator degrees of freedom for the
+  Edgerton-Shukur F test.}
+  \item{df2}{Double. Denominator degrees of freedom for the
+  Edgerton-Shukur F test.}
+  \item{p_value}{Double. p-value associated with the test statistic.}
+  \item{method}{Character. Description of the statistical test.}
+}
+
+Parameter columns that do not apply to a given test are returned as `NA`.
+The Portmanteau and Breusch-Godfrey tests use `df`. The Edgerton-Shukur
+test uses `df1` and `df2`.
 }
 \description{
-Tidier for the \code{varest} and \code{vec2var} class.
+Computes a multivariate serial correlation test for the residuals of a
+supported VAR model using [vars::serial.test()] and converts the result
+to a tidy tibble.
+}
+\details{
+Each row represents one serial correlation test for the VAR residuals
+with a given lag specification.
 }
 \examples{
-model <- vars::VAR(EuStockMarkets)
+model <- vars::VAR(EuStockMarkets, p = 2)
 
-tv_serial_test(model)
+tv_serial_test(
+  model,
+  lags_pt = 8,
+  type = "PT.adjusted"
+)
+
+tv_serial_test(
+  model,
+  lags_bg = 2,
+  type = "BG"
+)
+}
+\seealso{
+[vars::serial.test()]
 }

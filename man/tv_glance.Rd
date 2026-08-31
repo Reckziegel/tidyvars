@@ -2,22 +2,39 @@
 % Please edit documentation in R/glance.R
 \name{tv_glance}
 \alias{tv_glance}
-\title{Glance a VAR model}
+\alias{tv_glance.default}
+\alias{tv_glance.varest}
+\title{Glance at the equations of a VAR model}
 \usage{
 tv_glance(x, ...)
+
+\method{tv_glance}{default}(x, ...)
+
+\method{tv_glance}{varest}(x, ...)
 }
 \arguments{
-\item{x}{An object of the `varest` class.}
+\item{x}{A `varest` object.}
 
-\item{...}{Additional objects to be pass through.}
+\item{...}{Additional arguments passed to [broom::glance()] for each
+equation.}
 }
 \value{
-A \code{tibble}.
+A tibble with one row per equation and columns:
+  `equation`, `r_squared`, `adj_r_squared`, `sigma`, `statistic`,
+  `p_value`, `df`, `log_lik`, `aic`, `bic`, `deviance`,
+  `df_residual`, and `n_obs`.
 }
 \description{
-Tidier for the \code{varest} class.
+Summarises each equation of a VAR model using the corresponding linear
+model stored in the `varest` object.
+}
+\details{
+Each row represents one equation of the VAR. Model fit statistics such as
+`log_lik`, `aic`, and `bic` refer to the individual equation, not to the
+multivariate VAR system as a whole.
 }
 \examples{
 model <- vars::VAR(EuStockMarkets)
+
 tv_glance(model)
 }

@@ -12,145 +12,237 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  out.width = "100%",
+  message = FALSE,
+  warning = FALSE
 )
 ```
 
-# tidyvars
-
-> "tidiers" for VAR models
-
 <!-- badges: start -->
-
-[![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R-CMD-check](https://github.com/Reckziegel/tidyvars/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Reckziegel/tidyvars/actions/workflows/R-CMD-check.yaml)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/tidyvars)](https://CRAN.R-project.org/package=tidyvars)
-[![Codecov test
-coverage](https://codecov.io/gh/Reckziegel/tidyvars/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Reckziegel/tidyvars?branch=main)
-
+[![Codecov test coverage](https://codecov.io/gh/Reckziegel/tidyvars/graph/badge.svg)](https://app.codecov.io/gh/Reckziegel/tidyvars)
+[![Codecov test coverage](https://codecov.io/gh/Reckziegel/tidyvars/graph/badge.svg)](https://app.codecov.io/gh/Reckziegel/tidyvars)
 <!-- badges: end -->
 
-`tidyvars` is designed to integrate the `vars` package with the
-tidyverse ecosystem: it introduces "tidiers" to simplify the analysis of
-Vector Autoregressive (VAR) Models, following the "tidy data"
-philosophy. The package makes VAR modelling more accessible and
-intuitive, especially for old users of `broom`.
 
-## Why Use tidyvars?
+# tidyvars
 
-Choosing `tidyvars` for working with VAR Models offers key advantages:
+> A tidy interface for VAR models fitted with `{vars}`.
 
-**1. Efficient Data Handling**: `tidyvars` converts VAR outputs into a
-"tidy format" simplifying data manipulation.
+`tidyvars` makes results from Vector Autoregressive (VAR) models easier
+to inspect, manipulate and visualize.
 
-**2. Tidyverse Integration**: `tidyvars` ensures smooth interoperability
-with famous tools, like `dplyr` and `ggplot2`.
+The package does not replace `{vars}` or reimplement VAR econometrics.
+`{vars}` performs the statistical calculations; `tidyvars` organizes
+the results into consistent tidy objects that work naturally with
+`{dplyr}`, `{tidyr}`, and `{ggplot2}`.
 
-**3. Enhanced Interpretability**: `tidyvars` significantly eases the
-understanding and interpretation of model results.
-
-<!-- __4. Focus on Analitical Skils__: for tidyverse users, `tidyvars` shifts the focus  -->
-
-<!-- from data wrangling to model analysis.  -->
 
 ## Installation
 
-You can install the development version of `tidyvars` from github with:
+`tidyvars` is currently under development. The `tv_2.0` version can be
+installed from GitHub with `{pak}`:
 
-``` r
-# install.packages(devtools)
-devtools::install_github("https://github.com/Reckziegel/tidyvars")
+```r
+devtools::install_github("Reckziegel/tidyvars")
 ```
 
-## Usage Examples
+## Quick start
 
-Effortlessly manipulate, summarize, and augment VAR models using
-`tv_tidy()`, `tv_glance()`, and `tv_augment()`:
+Model estimation stays exactly where it belongs: in `{vars}`.
 
-```{r example}
+```{r setup}
 library(tidyvars)
 library(ggplot2)
 
-mod <- vars::VAR(EuStockMarkets)
-
-# Tidies the VAR model for easier analysis
-tv_tidy(mod)
-
-# Provides a concise summary of the model
-tv_glance(mod)
-
-# Augments the original data with model's details
-tv_augment(mod)
+model <- vars::VAR(
+  EuStockMarkets,
+  p = 2,
+  type = "const"
+)
 ```
 
-The `tidyvars` functions begins with `tv_*()` and maintain the same
-suffix as found in the `vars` package for consistency.
+From this point on, `tidyvars` provides a consistent interface for
+working with the fitted model.
 
-To evaluate the model's adherence to standard parametric assumptions use
-`tv_normality_test()` and `tv_serial_test()`:
+## Inspect model results
 
-```{r}
-# Tests for multivariate normality of residuals
-tv_normality_test(mod)
+A fitted `{vars}` model contains several equation-specific and nested
+objects. `tidyvars` turns the most common results into tidy tables.
 
-# Checks for serial correlation in residuals
-tv_serial_test(mod)
+```{r inspection}
+tv_tidy(model)
+
+tv_glance(model)
+
+tv_augment(model)
 ```
 
-To delve deeper into the causal relationships, see `tv_causality()`:
+`tv_tidy()` returns coefficient estimates by equation,
+`tv_glance()` provides equation-level summaries, and `tv_augment()`
+aligns observed values, fitted values, and residuals.
 
-```{r}
-# Analyzes causal relationships in the VAR model
-tv_causality(mod)
+The outputs use predictable lower-case `snake_case` column names while
+preserving the original variable names from the model.
+
+Because the results are tidy, they can immediately enter a normal
+tidyverse workflow:
+
+```{r tidy-workflow}
+model |>
+  tv_tidy() |>
+  dplyr::filter(p_value < 0.05) |>
+  dplyr::select(equation, term, estimate, p_value)
 ```
 
-VAR models are specially useful for forecasting given the ability to capture
-interdependencies of multiple time series. In `tidyvars`, this task 
-be easily accomplished with `tv_predict()`:
+There is no need to navigate `model$varresult`, combine equation
+outputs manually, or reshape them before analysis.
 
-```{r}
-# Generates forecasts from the VAR model
-tv_predict(mod, n.ahead = 1)
-tv_predict(mod, n.ahead = 2)
+## Dynamic analysis
+
+Impulse response functions and forecast error variance decompositions
+follow the same pattern.
+
+```{r dynamic-analysis}
+set.seed(123)
+
+irf <- tv_irf(model)
+fevd <- tv_fevd(model)
 ```
 
-For more nuanced inferences about the relationships in
-the model, use `tv_fevd()` and `tv_irf()`:
+An impulse response can be inspected directly as data:
 
-```{r}
-# Conducts Forecast Error Variance Decomposition
-tv_fevd(mod)
-
-# Computes Impulse Response Functions
-tv_irf(mod)
-
-# IRF from Blanchard-Quah Decomposition
-tv_irf(vars::BQ(mod))
+```{r irf-filter}
+irf |>
+  dplyr::filter(
+    impulse == "DAX",
+    response == "SMI"
+  )
 ```
 
-The functions `tv_fevd()` and `tv_irf()` are particularly useful for
-understanding how shocks to one variable might propagate through the
-system and impact other variables over time.
+Each row identifies the horizon, impulse, response, estimate, and
+confidence interval.
 
-## Plotting
+The same object can be plotted directly:
 
-`tidyvars` integrates the `autoplot()` method for most functions
-to enhance the user experience with a quick and intuitive visual
-representation of model outputs.
-
-See some examples bellow:
-
-```{r, warning=FALSE}
-# Fitted Model
-autoplot(tv_augment(mod))
-# Visualizes Impulse Response Functions
-autoplot(tv_irf(mod))
-# Displays Forecast Error Variance Decomposition
-autoplot(tv_fevd(mod))
-# Generates visual forecasts
-autoplot(tv_predict(mod, n.ahead = 12))
-# Zoom in the forecasts (last 3 months)
-autoplot(tv_predict(mod, n.ahead = 12), .n_obs = 60)
+```{r irf-plot, fig.width = 9, fig.height = 6}
+autoplot(irf, layout = "wrap") +
+  theme_tidyvars() +
+  palette_tidyvars()
 ```
+
+FEVD results are also returned in tidy form, with one contribution for
+each horizon, response, and shock:
+
+```{r fevd-plot, fig.width = 9, fig.height = 5}
+autoplot(fevd) +
+  theme_tidyvars() +
+  palette_tidyvars()
+```
+
+Conceptually:
+
+```text
+IRF  → response to a shock through time
+FEVD → contribution of each shock to forecast uncertainty
+```
+
+Both objects can be filtered, transformed, joined, or plotted using
+standard tidyverse tools.
+
+## Forecasting
+
+`tv_predict()` converts forecasts from `{vars}` into a single tidy
+object containing historical observations, point forecasts, and
+confidence intervals.
+
+Multiple confidence levels can be requested at once:
+
+```{r forecasting}
+prediction <- tv_predict(
+  model,
+  n_ahead = 12,
+  level = c(0.50, 0.75, 0.90)
+)
+
+prediction
+```
+
+The result can be plotted directly:
+
+```{r forecast-plot, fig.width = 9, fig.height = 6}
+autoplot(prediction, n_history = 30) +
+  theme_tidyvars() +
+  palette_tidyvars()
+```
+
+`n_history` controls only how much historical context is displayed.
+The forecast horizon itself is never truncated.
+
+As with the other `tidyvars` objects, the forecast remains available as
+ordinary tidy data for further manipulation.
+
+## Diagnostics
+
+Common VAR diagnostics are exposed through the same tabular interface:
+
+```{r diagnostics}
+tv_causality(model)
+
+tv_normality_test(model)
+
+tv_serial_test(model)
+```
+
+These functions organize the corresponding results from `{vars}` rather
+than reimplementing the underlying statistical tests.
+
+The returned tables use normalized identifiers and predictable schemas,
+making diagnostic results easy to filter, compare or include in
+reports.
+
+## Visualization
+
+`tidyvars` provides `autoplot()` methods for IRFs, FEVDs, and forecasts.
+
+The plotting methods define the structure of the visualization but do
+not impose the visual identity of the package.
+
+A `tidyvars` plot is still a regular `ggplot` object:
+
+```r
+autoplot(irf) +
+  ggplot2::theme_classic()
+```
+
+The optional visual system separates layout from colour:
+
+```r
+autoplot(irf) +
+  theme_tidyvars() +
+  palette_tidyvars()
+```
+
+```text
+theme_tidyvars()   → layout and typography
+palette_tidyvars() → colours
+```
+
+`theme_tidyvars()` controls structural elements such as typography,
+spacing, grids, facets, and legends without changing the colours used
+for the data.
+
+`palette_tidyvars()` applies the package colour identity only when
+explicitly requested.
+
+Discrete scales are also available independently for ordinary ggplot2
+graphics:
+
+```r
+scale_color_tidyvars()
+scale_fill_tidyvars()
+```
+
+This keeps the visual system optional and fully compatible with normal
+ggplot2 customization.
+

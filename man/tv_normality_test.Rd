@@ -5,7 +5,7 @@
 \alias{tv_normality_test.default}
 \alias{tv_normality_test.varest}
 \alias{tv_normality_test.vec2var}
-\title{Tidy Normality Test}
+\title{Tidy VAR normality tests}
 \usage{
 tv_normality_test(x, ...)
 
@@ -16,18 +16,50 @@ tv_normality_test(x, ...)
 \method{tv_normality_test}{vec2var}(x, ...)
 }
 \arguments{
-\item{x}{An object of the \code{varest} and \code{vec2var} class.}
+\item{x}{A supported VAR model object. Currently supports objects of class
+`varest` and `vec2var`.}
 
-\item{...}{Additional objects to be pass through.}
+\item{...}{Additional arguments passed to [vars::normality.test()], such as
+`multivariate.only`.}
 }
 \value{
-A \code{tibble}.
+A tibble with one row per normality test and the following columns:
+\describe{
+  \item{scope}{Character. Scope of the test: `"multivariate"` or
+  `"univariate"`.}
+  \item{variable}{Character. Variable associated with a univariate test.
+  `NA` for multivariate tests.}
+  \item{test}{Character. Test identifier: `"jarque_bera"`, `"skewness"`,
+  or `"kurtosis"`.}
+  \item{statistic}{Double. Test statistic.}
+  \item{df}{Double. Degrees of freedom.}
+  \item{p_value}{Double. p-value associated with the test statistic.}
+  \item{method}{Character. Description of the statistical test.}
+}
+
+With the default `multivariate.only = TRUE`, only the multivariate
+Jarque-Bera, skewness, and kurtosis tests are returned. When
+`multivariate.only = FALSE`, the result also includes one univariate
+Jarque-Bera test for each equation of the model.
 }
 \description{
-Tidier for the \code{varest} and \code{vec2var} class.
+Computes normality tests for the residuals of a supported VAR model using
+[vars::normality.test()] and converts the results to a tidy tibble.
+}
+\details{
+Each row represents one normality test applied either to the residuals of
+the VAR jointly or to the residuals of one equation.
 }
 \examples{
 model <- vars::VAR(EuStockMarkets)
 
 tv_normality_test(model)
+
+tv_normality_test(
+  model,
+  multivariate.only = FALSE
+)
+}
+\seealso{
+[vars::normality.test()]
 }
