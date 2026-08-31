@@ -4,7 +4,7 @@ Title: Extends broom for VAR models
 Version: 0.1.0
 Author: Bernardo Reckziegel
 Maintainer: Bernardo Reckziegel <bernardo_cse@hotmail.com>
-Description: Extends broom for VAR, SVAR and SVEC models.
+Description: A tidy workflow for VAR, SVAR and SVEC models.
 License: MIT + file LICENSE
 URL: https://github.com/Reckziegel/tidyvars, https://reckziegel.github.io/tidyvars/
 BugReports: https://github.com/Reckziegel/tidyvars/issues
