@@ -66,8 +66,8 @@
 #'
 #' @export
 theme_tidyvars <- function(
-    base_size = 11,
-    base_family = ""
+  base_size = 11,
+  base_family = ""
 ) {
   .validate_theme_base_size(base_size)
   .validate_theme_base_family(base_family)

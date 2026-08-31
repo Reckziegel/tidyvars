@@ -1,13 +1,11 @@
 # Printing helpers --------------------------------------------------------
 
 print_tidyvars_header <- function(title, details = NULL) {
-
   cat("<tidyvars ", title, ">\n", sep = "")
 
   if (!is.null(details)) {
     cat(details, "\n", sep = "")
   }
-
 }
 
 format_count <- function(label, x) {
@@ -77,7 +75,6 @@ print.tv_fevd <- function(x, ...) {
 
 #' @export
 print.tv_predict <- function(x, ...) {
-
   history_periods <- x |>
     dplyr::filter(.data$type == "history") |>
     dplyr::pull(.data$index) |>

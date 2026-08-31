@@ -153,8 +153,7 @@ date_index_spec <- function(index) {
     return(list(unit = "day", step = 7L))
   }
 
-  month_id <- 12L * lubridate::year(index) +
-    lubridate::month(index)
+  month_id <- 12L * lubridate::year(index) + lubridate::month(index)
 
   month_gaps <- diff(month_id)
 
@@ -172,7 +171,7 @@ date_index_spec <- function(index) {
 
   month_end <- index ==
     lubridate::ceiling_date(index, unit = "month") -
-    lubridate::days(1)
+      lubridate::days(1)
 
   same_day <- length(unique(day_of_month)) == 1L
 
@@ -233,7 +232,8 @@ forecast_index <- function(index, n_ahead, source = NULL) {
       future <- lubridate::ceiling_date(
         future,
         unit = "month"
-      ) - lubridate::days(1)
+      ) -
+        lubridate::days(1)
     }
 
     return(as.Date(future))
@@ -268,9 +268,9 @@ forecast_index <- function(index, n_ahead, source = NULL) {
 }
 
 tidy_forecast_level <- function(
-    prediction,
-    level,
-    future_index
+  prediction,
+  level,
+  future_index
 ) {
   purrr::imap_dfr(
     prediction$fcst,
@@ -317,10 +317,10 @@ tidy_forecast_level <- function(
 }
 
 tidy_predict_impl <- function(
-    x,
-    n_ahead,
-    level = 0.95,
-    ...
+  x,
+  n_ahead,
+  level = 0.95,
+  ...
 ) {
   n_ahead <- check_n_ahead(n_ahead)
   level <- check_prediction_level(level)

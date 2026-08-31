@@ -107,7 +107,6 @@ tidy_augment_impl <- function(x) {
     nrow = nrow(out),
     class = "tv_augment"
   )
-
 }
 
 #' Convert a model matrix to long format
@@ -136,7 +135,6 @@ augment_matrix_long <- function(values, index, variable_names, value_name) {
       names_to = "variable",
       values_to = value_name
     )
-
 }
 
 #' Extract the observation index from model data
@@ -156,7 +154,6 @@ augment_index <- function(y) {
   default_row_names <- as.character(seq_len(n_obs))
 
   if (!is.null(row_names) && !identical(row_names, default_row_names)) {
-
     dates <- suppressWarnings(as.Date(row_names))
 
     if (all(!is.na(dates))) {
@@ -164,9 +161,7 @@ augment_index <- function(y) {
     }
 
     return(row_names)
-
   }
 
   seq_len(n_obs)
-
 }

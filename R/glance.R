@@ -42,24 +42,23 @@ tv_glance.varest <- function(x, ...) {
 }
 
 tidy_glance_impl <- function(x, ...) {
-
   out <- x$varresult |>
     purrr::map(broom::glance, ...) |>
     purrr::list_rbind(names_to = "equation") |>
     dplyr::transmute(
-      equation      = as.character(.data$equation),
-      r_squared     = .data$r.squared,
+      equation = as.character(.data$equation),
+      r_squared = .data$r.squared,
       adj_r_squared = .data$adj.r.squared,
-      sigma         = .data$sigma,
-      statistic     = .data$statistic,
-      p_value       = .data$p.value,
-      df            = .data$df,
-      log_lik       = .data$logLik,
-      aic           = .data$AIC,
-      bic           = .data$BIC,
-      deviance      = .data$deviance,
-      df_residual   = .data$df.residual,
-      n_obs         = .data$nobs
+      sigma = .data$sigma,
+      statistic = .data$statistic,
+      p_value = .data$p.value,
+      df = .data$df,
+      log_lik = .data$logLik,
+      aic = .data$AIC,
+      bic = .data$BIC,
+      deviance = .data$deviance,
+      df_residual = .data$df.residual,
+      n_obs = .data$nobs
     )
 
   tibble::new_tibble(

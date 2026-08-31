@@ -14,13 +14,13 @@
 #' @importFrom ggplot2 autoplot
 #' @export
 autoplot.tv_irf <- function(
-    object,
-    .impulse = NULL,
-    .response = NULL,
-    layout = c("auto", "grid", "wrap"),
-    scales = c("free_y", "fixed"),
-    ci = TRUE,
-    ...
+  object,
+  .impulse = NULL,
+  .response = NULL,
+  layout = c("auto", "grid", "wrap"),
+  scales = c("free_y", "fixed"),
+  ci = TRUE,
+  ...
 ) {
   rlang::check_dots_empty()
 
@@ -109,8 +109,8 @@ autoplot.tv_irf <- function(
 
   if (
     resolved_layout == "wrap" &&
-    n_impulses > 1L &&
-    n_responses > 1L
+      n_impulses > 1L &&
+      n_responses > 1L
   ) {
     plot_data <- plot_data |>
       dplyr::mutate(
@@ -132,8 +132,8 @@ autoplot.tv_irf <- function(
     subtitle <- "Columns: impulse | Rows: response"
   } else if (
     resolved_layout == "wrap" &&
-    n_impulses > 1L &&
-    n_responses > 1L
+      n_impulses > 1L &&
+      n_responses > 1L
   ) {
     subtitle <- "Panels: impulse \u2192 response"
   } else if (n_impulses == 1L && n_responses > 1L) {
@@ -231,10 +231,10 @@ autoplot.tv_irf <- function(
 #' @importFrom ggplot2 autoplot
 #' @export
 autoplot.tv_fevd <- function(
-    object,
-    .response = NULL,
-    .shock = NULL,
-    ...
+  object,
+  .response = NULL,
+  .shock = NULL,
+  ...
 ) {
   rlang::check_dots_empty()
 
@@ -361,13 +361,13 @@ autoplot.tv_fevd <- function(
 #' @importFrom ggplot2 autoplot
 #' @export
 autoplot.tv_predict <- function(
-    object,
-    .variable = NULL,
-    n_history = NULL,
-    levels = NULL,
-    scales = c("free_y", "fixed"),
-    ci = TRUE,
-    ...
+  object,
+  .variable = NULL,
+  n_history = NULL,
+  levels = NULL,
+  scales = c("free_y", "fixed"),
+  ci = TRUE,
+  ...
 ) {
   rlang::check_dots_empty()
 
@@ -384,10 +384,8 @@ autoplot.tv_predict <- function(
 
   if (
     !is.null(n_history) &&
-    (
-      !rlang::is_integerish(n_history, n = 1L) ||
-      n_history < 1L
-    )
+      (!rlang::is_integerish(n_history, n = 1L) ||
+        n_history < 1L)
   ) {
     cli::cli_abort(
       "{.arg n_history} must be a positive integer or `NULL`."

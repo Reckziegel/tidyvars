@@ -1,4 +1,3 @@
-
 # tests/testthat/test-tv_tidy.R -------------------------------------------
 
 test_that("tv_tidy() returns the coefficient contract for varest objects", {

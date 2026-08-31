@@ -113,24 +113,20 @@ tidy_normality_test <- function(x, ...) {
 #' @return A tibble.
 #' @keywords internal
 tidy_multivariate_normality <- function(tests) {
-
   purrr::imap_dfr(
     .x = tests,
     .f = \(test_result, test_name) {
-
       tibble::tibble(
-        scope     = "multivariate",
-        variable  = NA_character_,
-        test      = normality_test_name(test_name),
+        scope = "multivariate",
+        variable = NA_character_,
+        test = normality_test_name(test_name),
         statistic = as.numeric(test_result$statistic),
-        df        = htest_parameter(test_result, "df"),
-        p_value   = as.numeric(test_result$p.value),
-        method    = test_result$method
+        df = htest_parameter(test_result, "df"),
+        p_value = as.numeric(test_result$p.value),
+        method = test_result$method
       )
     }
-
   )
-
 }
 
 #' Tidy univariate normality tests
@@ -141,10 +137,13 @@ tidy_multivariate_normality <- function(tests) {
 #' @return A tibble.
 #' @keywords internal
 tidy_univariate_normality <- function(tests, variable_names) {
-
   test_names <- names(tests)
 
-  if (is.null(test_names) || length(test_names) != length(tests) || any(test_names == "")) {
+  if (
+    is.null(test_names) ||
+      length(test_names) != length(tests) ||
+      any(test_names == "")
+  ) {
     test_names <- variable_names
   }
 
@@ -152,19 +151,17 @@ tidy_univariate_normality <- function(tests, variable_names) {
     .x = tests,
     .y = test_names,
     .f = \(test_result, variable_name) {
-
       tibble::tibble(
-        scope     = "univariate",
-        variable  = variable_name,
-        test      = "jarque_bera",
+        scope = "univariate",
+        variable = variable_name,
+        test = "jarque_bera",
         statistic = as.numeric(test_result$statistic),
-        df        = htest_parameter(test_result, "df"),
-        p_value   = as.numeric(test_result$p.value),
-        method    = test_result$method
+        df = htest_parameter(test_result, "df"),
+        p_value = as.numeric(test_result$p.value),
+        method = test_result$method
       )
     }
   )
-
 }
 
 #' Normalize normality test identifiers
@@ -174,7 +171,6 @@ tidy_univariate_normality <- function(tests, variable_names) {
 #' @return A character scalar.
 #' @keywords internal
 normality_test_name <- function(x) {
-
   switch(
     x,
     JB = "jarque_bera",

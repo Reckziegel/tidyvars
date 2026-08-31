@@ -1,4 +1,3 @@
-
 make_autoplot_irf_varest <- function() {
   data("Canada", package = "vars", envir = environment())
 
@@ -200,8 +199,7 @@ test_that("autoplot.tv_irf() filters multiple impulses and responses", {
   expect_equal(
     nrow(plot$data),
     sum(
-      result$impulse %in% impulses &
-        result$response %in% responses
+      result$impulse %in% impulses & result$response %in% responses
     )
   )
 })

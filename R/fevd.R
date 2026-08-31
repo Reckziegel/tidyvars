@@ -48,7 +48,6 @@ tv_fevd.default <- function(x, ...) {
   cli::cli_abort(
     "No {.fn tv_fevd} method for objects of class {.cls {class_name}}."
   )
-
 }
 
 #' @rdname tv_fevd
@@ -71,13 +70,11 @@ tv_fevd.vec2var <- function(x, ...) {
 #' @return A `tv_fevd` tibble.
 #' @keywords internal
 tidy_fevd_impl <- function(x, ...) {
-
   fevd <- vars::fevd(x, ...)
 
   out <- purrr::imap_dfr(
     .x = fevd,
     .f = \(values, response_name) {
-
       values |>
         tibble::as_tibble() |>
 
@@ -100,5 +97,4 @@ tidy_fevd_impl <- function(x, ...) {
     nrow = nrow(out),
     class = "tv_fevd"
   )
-
 }

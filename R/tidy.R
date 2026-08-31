@@ -73,24 +73,21 @@ tv_tidy.vec2var <- function(x, ...) {
 #' @return A `tv_tidy` tibble.
 #' @keywords internal
 tidy_varest_coefficients <- function(x) {
-
   out <- stats::coef(x) |>
 
     purrr::imap_dfr(
-
       \(coefficients, equation) {
         coefficients |>
           tibble::as_tibble(rownames = "term") |>
           dplyr::transmute(
-            equation  = equation,
-            term      = .data$term,
-            estimate  = .data$Estimate,
+            equation = equation,
+            term = .data$term,
+            estimate = .data$Estimate,
             std_error = .data$`Std. Error`,
             statistic = .data$`t value`,
-            p_value   = .data$`Pr(>|t|)`
+            p_value = .data$`Pr(>|t|)`
           )
       }
-
     )
 
   tibble::new_tibble(
@@ -98,10 +95,4 @@ tidy_varest_coefficients <- function(x) {
     nrow = nrow(out),
     class = "tv_tidy"
   )
-
 }
-
-
-
-
-

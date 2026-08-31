@@ -68,13 +68,11 @@ tv_causality.varest <- function(x, ...) {
 #' @return A `tv_causality` tibble.
 #' @keywords internal
 tidy_causality_impl <- function(x, ...) {
-
   causes <- names(stats::coef(x))
 
   out <- purrr::map_dfr(
     .x = causes,
     .f = \(cause) {
-
       causality <- vars::causality(x = x, cause = cause, ...)
 
       dplyr::bind_rows(
@@ -108,17 +106,16 @@ tidy_causality_impl <- function(x, ...) {
 #' @return A one-row tibble.
 #' @keywords internal
 tidy_causality_htest <- function(x, cause, test) {
-
   tibble::tibble(
-    cause     = cause,
-    test      = test,
+    cause = cause,
+    test = test,
     statistic = as.numeric(x$statistic),
-    df        = htest_parameter(x, "df"),
-    df1       = htest_parameter(x, "df1"),
-    df2       = htest_parameter(x, "df2"),
+    df = htest_parameter(x, "df"),
+    df1 = htest_parameter(x, "df1"),
+    df2 = htest_parameter(x, "df2"),
     boot_runs = htest_parameter(x, "boot.runs"),
-    p_value   = as.numeric(x$p.value),
-    method    = x$method
+    p_value = as.numeric(x$p.value),
+    method = x$method
   )
 }
 
@@ -132,13 +129,13 @@ tidy_causality_htest <- function(x, cause, test) {
 htest_parameter <- function(x, parameter) {
   parameters <- x$parameter
 
-  if (is.null(parameters) || is.null(names(parameters)) || !parameter %in% names(parameters)) {
+  if (
+    is.null(parameters) ||
+      is.null(names(parameters)) ||
+      !parameter %in% names(parameters)
+  ) {
     return(NA_real_)
   }
 
   as.numeric(parameters[[parameter]])
-
 }
-
-
-

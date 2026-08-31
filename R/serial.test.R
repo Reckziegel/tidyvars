@@ -54,22 +54,24 @@
 #'   type = "BG"
 #' )
 tv_serial_test <- function(
-    x,
-    lags_pt = 16,
-    lags_bg = 5,
-    type = c("PT.asymptotic", "PT.adjusted", "BG", "ES"),
-    ...) {
+  x,
+  lags_pt = 16,
+  lags_bg = 5,
+  type = c("PT.asymptotic", "PT.adjusted", "BG", "ES"),
+  ...
+) {
   UseMethod("tv_serial_test")
 }
 
 #' @rdname tv_serial_test
 #' @export
 tv_serial_test.default <- function(
-    x,
-    lags_pt = 16,
-    lags_bg = 5,
-    type = c("PT.asymptotic", "PT.adjusted", "BG", "ES"),
-    ...) {
+  x,
+  lags_pt = 16,
+  lags_bg = 5,
+  type = c("PT.asymptotic", "PT.adjusted", "BG", "ES"),
+  ...
+) {
   class_name <- class(x)[[1]]
 
   cli::cli_abort(
@@ -80,11 +82,12 @@ tv_serial_test.default <- function(
 #' @rdname tv_serial_test
 #' @export
 tv_serial_test.varest <- function(
-    x,
-    lags_pt = 16,
-    lags_bg = 5,
-    type = c("PT.asymptotic", "PT.adjusted", "BG", "ES"),
-    ...) {
+  x,
+  lags_pt = 16,
+  lags_bg = 5,
+  type = c("PT.asymptotic", "PT.adjusted", "BG", "ES"),
+  ...
+) {
   tidy_serial_test_impl(
     x,
     lags_pt = lags_pt,
@@ -96,11 +99,20 @@ tv_serial_test.varest <- function(
 
 #' @rdname tv_serial_test
 #' @export
-tv_serial_test.vec2var <- function(x, lags_pt = 16, lags_bg = 5,
-                                   type = c("PT.asymptotic", "PT.adjusted", "BG", "ES"), ...) {
-
-  tidy_serial_test_impl(x, lags_pt = lags_pt, lags_bg = lags_bg, type = type, ...)
-
+tv_serial_test.vec2var <- function(
+  x,
+  lags_pt = 16,
+  lags_bg = 5,
+  type = c("PT.asymptotic", "PT.adjusted", "BG", "ES"),
+  ...
+) {
+  tidy_serial_test_impl(
+    x,
+    lags_pt = lags_pt,
+    lags_bg = lags_bg,
+    type = type,
+    ...
+  )
 }
 
 #' Extract a tidy serial correlation test
@@ -114,7 +126,6 @@ tv_serial_test.vec2var <- function(x, lags_pt = 16, lags_bg = 5,
 #' @return A `tv_serial_test` tibble.
 #' @keywords internal
 tidy_serial_test_impl <- function(x, lags_pt, lags_bg, type, ...) {
-
   rlang::check_dots_empty()
 
   type <- match.arg(
@@ -165,7 +176,6 @@ tidy_serial_test_impl <- function(x, lags_pt, lags_bg, type, ...) {
 #' @return A character scalar.
 #' @keywords internal
 serial_test_name <- function(type) {
-
   switch(
     type,
     "PT.asymptotic" = "portmanteau_asymptotic",

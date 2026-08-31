@@ -55,7 +55,6 @@ tv_irf.default <- function(x, ...) {
   cli::cli_abort(
     "No {.fn tv_irf} method for objects of class {.cls {class_name}}."
   )
-
 }
 
 #' @rdname tv_irf
@@ -84,12 +83,10 @@ tv_irf.svarest <- function(x, ...) {
 #' @return A `tv_irf` tibble.
 #' @keywords internal
 tidy_irf_impl <- function(x, ...) {
-
   irf <- vars::irf(x, ...)
   out <- tidy_irf_component(irf$irf, value_name = "estimate")
 
   if (isTRUE(irf$boot)) {
-
     lower <- tidy_irf_component(irf$Lower, value_name = "lower")
     upper <- tidy_irf_component(irf$Upper, value_name = "upper")
 
@@ -102,12 +99,9 @@ tidy_irf_impl <- function(x, ...) {
         upper,
         by = c("horizon", "impulse", "response")
       )
-
   } else {
-
     out <- out |>
       dplyr::mutate(lower = NA_real_, upper = NA_real_)
-
   }
 
   tibble::new_tibble(
@@ -115,7 +109,6 @@ tidy_irf_impl <- function(x, ...) {
     nrow = nrow(out),
     class = "tv_irf"
   )
-
 }
 
 #' Convert an impulse-response component to long format
@@ -126,11 +119,9 @@ tidy_irf_impl <- function(x, ...) {
 #' @return A tibble in long format.
 #' @keywords internal
 tidy_irf_component <- function(x, value_name) {
-
   purrr::imap_dfr(
     .x = x,
     .f = \(values, impulse_name) {
-
       values |>
         tibble::as_tibble() |>
 
@@ -151,5 +142,4 @@ tidy_irf_component <- function(x, value_name) {
         )
     }
   )
-
 }

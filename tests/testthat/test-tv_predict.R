@@ -330,7 +330,8 @@ test_that("regular monthly Date indices are extended correctly", {
   index <- lubridate::ceiling_date(
     month_starts,
     unit = "month"
-  ) - lubridate::days(1)
+  ) -
+    lubridate::days(1)
 
   model <- make_indexed_predict_varest(
     index,
@@ -378,7 +379,8 @@ test_that("regular quarterly Date indices are extended correctly", {
   index <- lubridate::ceiling_date(
     quarter_starts,
     unit = "month"
-  ) - lubridate::days(1)
+  ) -
+    lubridate::days(1)
 
   model <- make_indexed_predict_varest(index)
 

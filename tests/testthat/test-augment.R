@@ -15,7 +15,6 @@ make_augment_model <- function(p = 2L) {
   rownames(y) <- as.character(dates)
 
   vars::VAR(y, p = p, type = "const")
-
 }
 
 test_that("tv_augment() returns the augment contract for varest objects", {

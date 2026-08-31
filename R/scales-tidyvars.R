@@ -41,7 +41,8 @@
         "impulse",
         "response",
         "estimate"
-      ) %in% columns
+      ) %in%
+        columns
     )
   ) {
     return("irf")
@@ -54,7 +55,8 @@
         "variable",
         "type",
         "estimate"
-      ) %in% columns
+      ) %in%
+        columns
     )
   ) {
     return("predict")
@@ -67,7 +69,8 @@
         "response",
         "shock",
         "contribution"
-      ) %in% columns
+      ) %in%
+        columns
     )
   ) {
     return("fevd")
@@ -78,9 +81,9 @@
 
 
 .tidyvars_add_layer_mapping <- function(
-    layer,
-    aesthetic,
-    variable
+  layer,
+  aesthetic,
+  variable
 ) {
   mapping <- switch(
     aesthetic,
@@ -99,10 +102,10 @@
 
 
 .tidyvars_map_geom <- function(
-    plot,
-    geom_class,
-    aesthetic,
-    variable
+  plot,
+  geom_class,
+  aesthetic,
+  variable
 ) {
   plot$layers <- purrr::map(
     plot$layers,
@@ -158,8 +161,8 @@
 #'
 #' @export
 scale_color_tidyvars <- function(
-    ...,
-    na.value = "grey70"
+  ...,
+  na.value = "grey70"
 ) {
   ggplot2::discrete_scale(
     aesthetics = "colour",
@@ -173,8 +176,8 @@ scale_color_tidyvars <- function(
 #' @rdname scale_color_tidyvars
 #' @export
 scale_fill_tidyvars <- function(
-    ...,
-    na.value = "grey70"
+  ...,
+  na.value = "grey70"
 ) {
   ggplot2::discrete_scale(
     aesthetics = "fill",
