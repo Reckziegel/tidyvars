@@ -1,8 +1,8 @@
-pandoc: 3.1.11
-pkgdown: 2.1.0
+pandoc: 3.8.3
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2024-08-20T21:56Z
+last_built: 2026-08-31T20:38Z
 urls:
   reference: https://github.com/Reckziegel/tidyvars/reference
   article: https://github.com/Reckziegel/tidyvars/articles

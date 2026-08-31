@@ -7,12 +7,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Extends broom for VAR models • tidyvars</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Extends broom for VAR models">
-<meta name="description" content="Extends broom for VAR, SVAR and SVEC models.">
-<meta property="og:description" content="Extends broom for VAR, SVAR and SVEC models.">
+<meta name="description" content="A tidy workflow for VAR, SVAR and SVEC models.">
+<meta property="og:description" content="A tidy workflow for VAR, SVAR and SVEC models.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -45,233 +45,276 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9"><div class="section level1">
+  <main id="main" class="col-md-9">
+<div class="section level1">
 <div class="page-header"><h1 id="tidyvars">tidyvars<a class="anchor" aria-label="anchor" href="#tidyvars"></a>
 </h1></div>
 <blockquote>
-<p>“tidiers” for VAR models</p>
+<p>A tidy interface for VAR models fitted with <a href="https://www.pfaffikus.de" class="external-link">vars</a>.</p>
 </blockquote>
-<!-- badges: start -->
-
-<!-- badges: end -->
-<p><code>tidyvars</code> is designed to integrate the <code>vars</code> package with the tidyverse ecosystem: it introduces “tidiers” to simplify the analysis of Vector Autoregressive (VAR) Models, following the “tidy data” philosophy. The package makes VAR modelling more accessible and intuitive, especially for old users of <code>broom</code>.</p>
-<div class="section level2">
-<h2 id="why-use-tidyvars">Why Use tidyvars?<a class="anchor" aria-label="anchor" href="#why-use-tidyvars"></a>
-</h2>
-<p>Choosing <code>tidyvars</code> for working with VAR Models offers key advantages:</p>
-<p><strong>1. Efficient Data Handling</strong>: <code>tidyvars</code> converts VAR outputs into a “tidy format” simplifying data manipulation.</p>
-<p><strong>2. Tidyverse Integration</strong>: <code>tidyvars</code> ensures smooth interoperability with famous tools, like <code>dplyr</code> and <code>ggplot2</code>.</p>
-<p><strong>3. Enhanced Interpretability</strong>: <code>tidyvars</code> significantly eases the understanding and interpretation of model results.</p>
-<!-- __4. Focus on Analitical Skils__: for tidyverse users, `tidyvars` shifts the focus  -->
-<!-- from data wrangling to model analysis.  -->
-</div>
+<p><code>tidyvars</code> makes results from Vector Autoregressive (VAR) models easier to inspect, manipulate and visualize.</p>
+<p>The package does not replace <a href="https://www.pfaffikus.de" class="external-link">vars</a> or reimplement VAR econometrics. <a href="https://www.pfaffikus.de" class="external-link">vars</a> performs the statistical calculations; <code>tidyvars</code> organizes the results into consistent tidy objects that work naturally with <a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a>, <a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a>, and <a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of <code>tidyvars</code> from github with:</p>
+<p><code>tidyvars</code> is currently under development. The <code>tv_2.0</code> version can be installed from GitHub with <a href="https://pak.r-lib.org/" class="external-link">pak</a>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages(devtools)</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"https://github.com/Reckziegel/tidyvars"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"Reckziegel/tidyvars"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="usage-examples">Usage Examples<a class="anchor" aria-label="anchor" href="#usage-examples"></a>
+<h2 id="quick-start">Quick start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
-<p>Effortlessly manipulate, summarize, and augment VAR models using <code><a href="reference/tv_tidy.html">tv_tidy()</a></code>, <code><a href="reference/tv_glance.html">tv_glance()</a></code>, and <code><a href="reference/tv_augment.html">tv_augment()</a></code>:</p>
+<p>Model estimation stays exactly where it belongs: in <a href="https://www.pfaffikus.de" class="external-link">vars</a>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Reckziegel/tidyvars">tidyvars</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu">vars</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/vars/man/VAR.html" class="external-link">VAR</a></span><span class="op">(</span><span class="va">EuStockMarkets</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Tidies the VAR model for easier analysis</span></span>
-<span><span class="fu"><a href="reference/tv_tidy.html">tv_tidy</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 20 x 6</span></span>
-<span><span class="co">#&gt;    group term     estimate std.error statistic p.value</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt; &lt;fct&gt;       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1 DAX   DAX.l1    0.975     0.00687   142.     0     </span></span>
-<span><span class="co">#&gt;  2 DAX   SMI.l1    0.0119    0.00567     2.10   0.0357</span></span>
-<span><span class="co">#&gt;  3 DAX   CAC.l1    0.0100    0.00570     1.76   0.0789</span></span>
-<span><span class="co">#&gt;  4 DAX   FTSE.l1   0.00310   0.00621     0.500  0.617 </span></span>
-<span><span class="co">#&gt;  5 DAX   const    -9.13     13.3        -0.687  0.492 </span></span>
-<span><span class="co">#&gt;  6 SMI   DAX.l1   -0.00877   0.00846    -1.04   0.300 </span></span>
-<span><span class="co">#&gt;  7 SMI   SMI.l1    0.994     0.00698   142.     0     </span></span>
-<span><span class="co">#&gt;  8 SMI   CAC.l1    0.00665   0.00702     0.948  0.343 </span></span>
-<span><span class="co">#&gt;  9 SMI   FTSE.l1   0.0184    0.00765     2.41   0.0162</span></span>
-<span><span class="co">#&gt; 10 SMI   const   -34.8      16.4        -2.12   0.0340</span></span>
-<span><span class="co">#&gt; 11 CAC   DAX.l1   -0.0102    0.00556    -1.84   0.0662</span></span>
-<span><span class="co">#&gt; 12 CAC   SMI.l1    0.00962   0.00459     2.10   0.0363</span></span>
-<span><span class="co">#&gt; 13 CAC   CAC.l1    0.998     0.00461   216.     0     </span></span>
-<span><span class="co">#&gt; 14 CAC   FTSE.l1  -0.00260   0.00503    -0.517  0.605 </span></span>
-<span><span class="co">#&gt; 15 CAC   const     9.02     10.8         0.838  0.402 </span></span>
-<span><span class="co">#&gt; 16 FTSE  DAX.l1   -0.00734   0.00649    -1.13   0.258 </span></span>
-<span><span class="co">#&gt; 17 FTSE  SMI.l1    0.0132    0.00536     2.47   0.0137</span></span>
-<span><span class="co">#&gt; 18 FTSE  CAC.l1   -0.00913   0.00538    -1.70   0.0902</span></span>
-<span><span class="co">#&gt; 19 FTSE  FTSE.l1   0.991     0.00587   169.     0     </span></span>
-<span><span class="co">#&gt; 20 FTSE  const    28.7      12.6         2.29   0.0224</span></span>
-<span></span>
-<span><span class="co"># Provides a concise summary of the model</span></span>
-<span><span class="fu"><a href="reference/tv_glance.html">tv_glance</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 1 x 4</span></span>
-<span><span class="co">#&gt;   lag.order  logLik  nobs     n</span></span>
-<span><span class="co">#&gt;       &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1         1 -34023.  1859  1860</span></span>
-<span></span>
-<span><span class="co"># Augments the original data with model's details</span></span>
-<span><span class="fu"><a href="reference/tv_augment.html">tv_augment</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 7,440 x 5</span></span>
-<span><span class="co">#&gt;    rowid .asset    .x .fitted .resid</span></span>
-<span><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1     1 DAX    1629.   1625. -11.2 </span></span>
-<span><span class="co">#&gt;  2     1 SMI    1678.   1676.  12.8 </span></span>
-<span><span class="co">#&gt;  3     1 CAC    1773.   1771. -20.4 </span></span>
-<span><span class="co">#&gt;  4     1 FTSE   2444.   2444.  16.3 </span></span>
-<span><span class="co">#&gt;  5     2 DAX    1614.   1610.  -3.48</span></span>
-<span><span class="co">#&gt;  6     2 SMI    1688.   1686.  -7.78</span></span>
-<span><span class="co">#&gt;  7     2 CAC    1750.   1749. -30.8 </span></span>
-<span><span class="co">#&gt;  8     2 FTSE   2460.   2461. -12.6 </span></span>
-<span><span class="co">#&gt;  9     3 DAX    1607.   1603.  18.5 </span></span>
-<span><span class="co">#&gt; 10     3 SMI    1679.   1676.   7.94</span></span>
-<span><span class="co">#&gt; # i 7,430 more rows</span></span></code></pre></div>
-<p>The <code>tidyvars</code> functions begins with <code>tv_*()</code> and maintain the same suffix as found in the <code>vars</code> package for consistency.</p>
-<p>To evaluate the model’s adherence to standard parametric assumptions use <code><a href="reference/tv_normality_test.html">tv_normality_test()</a></code> and <code><a href="reference/tv_serial_test.html">tv_serial_test()</a></code>:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Tests for multivariate normality of residuals</span></span>
-<span><span class="fu"><a href="reference/tv_normality_test.html">tv_normality_test</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 3 x 5</span></span>
-<span><span class="co">#&gt;   .test    .statistic .parameter .p.value .method                     </span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;         &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;                       </span></span>
-<span><span class="co">#&gt; 1 JB           10087.          8        0 JB-Test (multivariate)      </span></span>
-<span><span class="co">#&gt; 2 Skewness       150.          4        0 Skewness only (multivariate)</span></span>
-<span><span class="co">#&gt; 3 Kurtosis      9938.          4        0 Kurtosis only (multivariate)</span></span>
-<span></span>
-<span><span class="co"># Checks for serial correlation in residuals</span></span>
-<span><span class="fu"><a href="reference/tv_serial_test.html">tv_serial_test</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 4 x 5</span></span>
-<span><span class="co">#&gt;   .test         .statistic .parameter .p.value .method                      </span></span>
-<span><span class="co">#&gt;   &lt;fct&gt;              &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;                        </span></span>
-<span><span class="co">#&gt; 1 PT.asymptotic     589.          240        0 Portmanteau Test (asymptotic)</span></span>
-<span><span class="co">#&gt; 2 PT.adjusted       591.          240        0 Portmanteau Test (adjusted)  </span></span>
-<span><span class="co">#&gt; 3 BG                257.           80        0 Breusch-Godfrey LM test      </span></span>
-<span><span class="co">#&gt; 4 ES                  3.29         80        0 Edgerton-Shukur F test</span></span></code></pre></div>
-<p>To delve deeper into the causal relationships, see <code><a href="reference/tv_causality.html">tv_causality()</a></code>:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Analyzes causal relationships in the VAR model</span></span>
-<span><span class="fu"><a href="reference/tv_causality.html">tv_causality</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 8 x 6</span></span>
-<span><span class="co">#&gt;   .asset .test   .statistic .parameter .p.value .method                         </span></span>
-<span><span class="co">#&gt;   &lt;fct&gt;  &lt;chr&gt;        &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;                           </span></span>
-<span><span class="co">#&gt; 1 DAX    granger       1.14          3 0.332    Granger causality H0: DAX do no~</span></span>
-<span><span class="co">#&gt; 2 SMI    granger       2.18          3 0.0882   Granger causality H0: SMI do no~</span></span>
-<span><span class="co">#&gt; 3 CAC    granger       6.24          3 0.000314 Granger causality H0: CAC do no~</span></span>
-<span><span class="co">#&gt; 4 FTSE   granger       4.48          3 0.00377  Granger causality H0: FTSE do n~</span></span>
-<span><span class="co">#&gt; 5 DAX    instant     762.            3 0        H0: No instantaneous causality ~</span></span>
-<span><span class="co">#&gt; 6 SMI    instant     689.            3 0        H0: No instantaneous causality ~</span></span>
-<span><span class="co">#&gt; 7 CAC    instant     705.            3 0        H0: No instantaneous causality ~</span></span>
-<span><span class="co">#&gt; 8 FTSE   instant     650.            3 0        H0: No instantaneous causality ~</span></span></code></pre></div>
-<p>VAR models are specially useful for forecasting given the ability to capture interdependencies of multiple time series. In <code>tidyvars</code>, this task be easily accomplished with <code><a href="reference/tv_predict.html">tv_predict()</a></code>:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Generates forecasts from the VAR model</span></span>
-<span><span class="fu"><a href="reference/tv_predict.html">tv_predict</a></span><span class="op">(</span><span class="va">mod</span>, n.ahead <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 4 x 6</span></span>
-<span><span class="co">#&gt;   rowid .asset  fcst lower upper    CI</span></span>
-<span><span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1     1 DAX    5478. 5415. 5541.  63.4</span></span>
-<span><span class="co">#&gt; 2     1 SMI    7674. 7596. 7753.  78.1</span></span>
-<span><span class="co">#&gt; 3     1 CAC    3998. 3947. 4050.  51.3</span></span>
-<span><span class="co">#&gt; 4     1 FTSE   5458. 5398. 5518.  59.9</span></span>
-<span><span class="fu"><a href="reference/tv_predict.html">tv_predict</a></span><span class="op">(</span><span class="va">mod</span>, n.ahead <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 8 x 6</span></span>
-<span><span class="co">#&gt;   rowid .asset  fcst lower upper    CI</span></span>
-<span><span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1     1 DAX    5478. 5415. 5541.  63.4</span></span>
-<span><span class="co">#&gt; 2     2 DAX    5482. 5393. 5572.  89.4</span></span>
-<span><span class="co">#&gt; 3     1 SMI    7674. 7596. 7753.  78.1</span></span>
-<span><span class="co">#&gt; 4     2 SMI    7673. 7562. 7783. 111. </span></span>
-<span><span class="co">#&gt; 5     1 CAC    3998. 3947. 4050.  51.3</span></span>
-<span><span class="co">#&gt; 6     2 CAC    4002. 3929. 4074.  72.5</span></span>
-<span><span class="co">#&gt; 7     1 FTSE   5458. 5398. 5518.  59.9</span></span>
-<span><span class="co">#&gt; 8     2 FTSE   5462. 5377. 5546.  84.4</span></span></code></pre></div>
-<p>For more nuanced inferences about the relationships in the model, use <code><a href="reference/tv_fevd.html">tv_fevd()</a></code> and <code><a href="reference/tv_irf.html">tv_irf()</a></code>:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Conducts Forecast Error Variance Decomposition</span></span>
-<span><span class="fu"><a href="reference/tv_fevd.html">tv_fevd</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 160 x 4</span></span>
-<span><span class="co">#&gt;    rowid .asset .impact      .fevd</span></span>
-<span><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;        &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1     1 DAX    DAX     1         </span></span>
-<span><span class="co">#&gt;  2     1 DAX    SMI     0         </span></span>
-<span><span class="co">#&gt;  3     1 DAX    CAC     0         </span></span>
-<span><span class="co">#&gt;  4     1 DAX    FTSE    0         </span></span>
-<span><span class="co">#&gt;  5     2 DAX    DAX     1.00      </span></span>
-<span><span class="co">#&gt;  6     2 DAX    SMI     0.0000642 </span></span>
-<span><span class="co">#&gt;  7     2 DAX    CAC     0.0000178 </span></span>
-<span><span class="co">#&gt;  8     2 DAX    FTSE    0.00000200</span></span>
-<span><span class="co">#&gt;  9     3 DAX    DAX     1.00      </span></span>
-<span><span class="co">#&gt; 10     3 DAX    SMI     0.000212  </span></span>
-<span><span class="co">#&gt; # i 150 more rows</span></span>
-<span></span>
-<span><span class="co"># Computes Impulse Response Functions</span></span>
-<span><span class="fu"><a href="reference/tv_irf.html">tv_irf</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 176 x 6</span></span>
-<span><span class="co">#&gt;    rowid .impulse .asset  .irf .lower .upper</span></span>
-<span><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1     1 DAX      DAX     32.4   29.7   34.8</span></span>
-<span><span class="co">#&gt;  2     1 DAX      SMI     29.8   26.8   33.1</span></span>
-<span><span class="co">#&gt;  3     1 DAX      CAC     19.5   17.9   21.1</span></span>
-<span><span class="co">#&gt;  4     1 DAX      FTSE    20.8   19.1   22.4</span></span>
-<span><span class="co">#&gt;  5     2 DAX      DAX     32.2   29.5   34.4</span></span>
-<span><span class="co">#&gt;  6     2 DAX      SMI     29.8   26.9   33.1</span></span>
-<span><span class="co">#&gt;  7     2 DAX      CAC     19.4   17.6   21.0</span></span>
-<span><span class="co">#&gt;  8     2 DAX      FTSE    20.6   18.8   22.3</span></span>
-<span><span class="co">#&gt;  9     3 DAX      DAX     32.0   29.4   34.1</span></span>
-<span><span class="co">#&gt; 10     3 DAX      SMI     29.9   27.1   33.2</span></span>
-<span><span class="co">#&gt; # i 166 more rows</span></span>
-<span></span>
-<span><span class="co"># IRF from Blanchard-Quah Decomposition</span></span>
-<span><span class="fu"><a href="reference/tv_irf.html">tv_irf</a></span><span class="op">(</span><span class="fu">vars</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/vars/man/BQ.html" class="external-link">BQ</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 176 x 6</span></span>
-<span><span class="co">#&gt;    rowid .impulse .asset  .irf .lower .upper</span></span>
-<span><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1     1 DAX      DAX     5.23  -9.08   21.8</span></span>
-<span><span class="co">#&gt;  2     1 DAX      SMI     8.49 -12.1    33.7</span></span>
-<span><span class="co">#&gt;  3     1 DAX      CAC    -8.84 -12.8    16.0</span></span>
-<span><span class="co">#&gt;  4     1 DAX      FTSE   12.9  -17.2    27.3</span></span>
-<span><span class="co">#&gt;  5     2 DAX      DAX     5.15  -9.10   21.8</span></span>
-<span><span class="co">#&gt;  6     2 DAX      SMI     8.58 -12.3    33.9</span></span>
-<span><span class="co">#&gt;  7     2 DAX      CAC    -8.82 -12.7    16.0</span></span>
-<span><span class="co">#&gt;  8     2 DAX      FTSE   12.9  -17.2    27.2</span></span>
-<span><span class="co">#&gt;  9     3 DAX      DAX     5.08  -9.12   21.7</span></span>
-<span><span class="co">#&gt; 10     3 DAX      SMI     8.66 -12.5    34.0</span></span>
-<span><span class="co">#&gt; # i 166 more rows</span></span></code></pre></div>
-<p>The functions <code><a href="reference/tv_fevd.html">tv_fevd()</a></code> and <code><a href="reference/tv_irf.html">tv_irf()</a></code> are particularly useful for understanding how shocks to one variable might propagate through the system and impact other variables over time.</p>
+<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu">vars</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/vars/man/VAR.html" class="external-link">VAR</a></span><span class="op">(</span></span>
+<span>  <span class="va">EuStockMarkets</span>,</span>
+<span>  p <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"const"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>From this point on, <code>tidyvars</code> provides a consistent interface for working with the fitted model.</p>
 </div>
 <div class="section level2">
-<h2 id="plotting">Plotting<a class="anchor" aria-label="anchor" href="#plotting"></a>
+<h2 id="inspect-model-results">Inspect model results<a class="anchor" aria-label="anchor" href="#inspect-model-results"></a>
 </h2>
-<p><code>tidyvars</code> integrates the <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot()</a></code> method for most functions to enhance the user experience with a quick and intuitive visual representation of model outputs.</p>
-<p>See some examples bellow:</p>
+<p>A fitted <a href="https://www.pfaffikus.de" class="external-link">vars</a> model contains several equation-specific and nested objects. <code>tidyvars</code> turns the most common results into tidy tables.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/tv_tidy.html">tv_tidy</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;tidyvars coefficients&gt;</span></span>
+<span><span class="co">#&gt; Equations: 4 | Terms: 9</span></span>
+<span><span class="co">#&gt; # A tibble: 36 × 6</span></span>
+<span><span class="co">#&gt;    equation term    estimate std_error statistic   p_value</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 DAX      DAX.l1    0.996     0.0420    23.7   7.67e-109</span></span>
+<span><span class="co">#&gt;  2 DAX      SMI.l1   -0.102     0.0293    -3.47  5.26e-  4</span></span>
+<span><span class="co">#&gt;  3 DAX      CAC.l1    0.0468    0.0458     1.02  3.07e-  1</span></span>
+<span><span class="co">#&gt;  4 DAX      FTSE.l1   0.0927    0.0360     2.58  1.01e-  2</span></span>
+<span><span class="co">#&gt;  5 DAX      DAX.l2   -0.0219    0.0419    -0.522 6.01e-  1</span></span>
+<span><span class="co">#&gt;  6 DAX      SMI.l2    0.117     0.0293     3.98  7.18e-  5</span></span>
+<span><span class="co">#&gt;  7 DAX      CAC.l2   -0.0373    0.0460    -0.811 4.17e-  1</span></span>
+<span><span class="co">#&gt;  8 DAX      FTSE.l2  -0.0925    0.0361    -2.56  1.05e-  2</span></span>
+<span><span class="co">#&gt;  9 DAX      const    -3.67     13.4       -0.275 7.84e-  1</span></span>
+<span><span class="co">#&gt; 10 SMI      DAX.l1    0.0119    0.0517     0.230 8.18e-  1</span></span>
+<span><span class="co">#&gt; # ℹ 26 more rows</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/tv_glance.html">tv_glance</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;tidyvars equation summaries&gt;</span></span>
+<span><span class="co">#&gt; Equations: 4</span></span>
+<span><span class="co">#&gt; # A tibble: 4 × 13</span></span>
+<span><span class="co">#&gt;   equation r_squared adj_r_squared sigma statistic p_value    df log_lik    aic</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;        &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 DAX          0.999         0.999  32.2   262882.       0     8  -9084. 18189.</span></span>
+<span><span class="co">#&gt; 2 SMI          0.999         0.999  39.7   407363.       0     8  -9471. 18962.</span></span>
+<span><span class="co">#&gt; 3 CAC          0.998         0.998  26.1   114737.       0     8  -8691. 17402.</span></span>
+<span><span class="co">#&gt; 4 FTSE         0.999         0.999  30.2   242423.       0     8  -8964. 17948.</span></span>
+<span><span class="co">#&gt; # ℹ 4 more variables: bic &lt;dbl&gt;, deviance &lt;dbl&gt;, df_residual &lt;int&gt;, n_obs &lt;int&gt;</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/tv_augment.html">tv_augment</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;tidyvars augmented data&gt;</span></span>
+<span><span class="co">#&gt; Variables: 4 | Observations: 1860</span></span>
+<span><span class="co">#&gt; # A tibble: 7,440 × 5</span></span>
+<span><span class="co">#&gt;    index variable observed fitted residual</span></span>
+<span><span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 1991. DAX         1629.    NA     NA   </span></span>
+<span><span class="co">#&gt;  2 1991. SMI         1678.    NA     NA   </span></span>
+<span><span class="co">#&gt;  3 1991. CAC         1773.    NA     NA   </span></span>
+<span><span class="co">#&gt;  4 1991. FTSE        2444.    NA     NA   </span></span>
+<span><span class="co">#&gt;  5 1992. DAX         1614.    NA     NA   </span></span>
+<span><span class="co">#&gt;  6 1992. SMI         1688.    NA     NA   </span></span>
+<span><span class="co">#&gt;  7 1992. CAC         1750.    NA     NA   </span></span>
+<span><span class="co">#&gt;  8 1992. FTSE        2460.    NA     NA   </span></span>
+<span><span class="co">#&gt;  9 1992. DAX         1607.  1609.    -2.66</span></span>
+<span><span class="co">#&gt; 10 1992. SMI         1679.  1687.    -8.86</span></span>
+<span><span class="co">#&gt; # ℹ 7,430 more rows</span></span></code></pre></div>
+<p><code><a href="reference/tv_tidy.html">tv_tidy()</a></code> returns coefficient estimates by equation, <code><a href="reference/tv_glance.html">tv_glance()</a></code> provides equation-level summaries, and <code><a href="reference/tv_augment.html">tv_augment()</a></code> aligns observed values, fitted values, and residuals.</p>
+<p>The outputs use predictable lower-case <code>snake_case</code> column names while preserving the original variable names from the model.</p>
+<p>Because the results are tidy, they can immediately enter a normal tidyverse workflow:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="reference/tv_tidy.html">tv_tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">p_value</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">equation</span>, <span class="va">term</span>, <span class="va">estimate</span>, <span class="va">p_value</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;tidyvars coefficients&gt;</span></span>
+<span><span class="co">#&gt; Equations: 4 | Terms: 7</span></span>
+<span><span class="co">#&gt; # A tibble: 18 × 4</span></span>
+<span><span class="co">#&gt;    equation term    estimate   p_value</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 DAX      DAX.l1    0.996  7.67e-109</span></span>
+<span><span class="co">#&gt;  2 DAX      SMI.l1   -0.102  5.26e-  4</span></span>
+<span><span class="co">#&gt;  3 DAX      FTSE.l1   0.0927 1.01e-  2</span></span>
+<span><span class="co">#&gt;  4 DAX      SMI.l2    0.117  7.18e-  5</span></span>
+<span><span class="co">#&gt;  5 DAX      FTSE.l2  -0.0925 1.05e-  2</span></span>
+<span><span class="co">#&gt;  6 SMI      SMI.l1    0.962  9.57e-133</span></span>
+<span><span class="co">#&gt;  7 SMI      FTSE.l1   0.145  1.10e-  3</span></span>
+<span><span class="co">#&gt;  8 SMI      FTSE.l2  -0.131  3.15e-  3</span></span>
+<span><span class="co">#&gt;  9 CAC      SMI.l1   -0.0713 2.68e-  3</span></span>
+<span><span class="co">#&gt; 10 CAC      CAC.l1    1.04   4.93e-144</span></span>
+<span><span class="co">#&gt; 11 CAC      FTSE.l1   0.0840 3.98e-  3</span></span>
+<span><span class="co">#&gt; 12 CAC      SMI.l2    0.0834 4.48e-  4</span></span>
+<span><span class="co">#&gt; 13 CAC      FTSE.l2  -0.0895 2.24e-  3</span></span>
+<span><span class="co">#&gt; 14 FTSE     SMI.l1   -0.0912 9.15e-  4</span></span>
+<span><span class="co">#&gt; 15 FTSE     FTSE.l1   1.18   3.37e-207</span></span>
+<span><span class="co">#&gt; 16 FTSE     SMI.l2    0.109  7.14e-  5</span></span>
+<span><span class="co">#&gt; 17 FTSE     FTSE.l2  -0.199  4.89e-  9</span></span>
+<span><span class="co">#&gt; 18 FTSE     const    39.2    1.78e-  3</span></span></code></pre></div>
+<p>There is no need to navigate <code>model$varresult</code>, combine equation outputs manually, or reshape them before analysis.</p>
+</div>
+<div class="section level2">
+<h2 id="dynamic-analysis">Dynamic analysis<a class="anchor" aria-label="anchor" href="#dynamic-analysis"></a>
+</h2>
+<p>Impulse response functions and forecast error variance decompositions follow the same pattern.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">irf</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tv_irf.html">tv_irf</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
+<span><span class="va">fevd</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tv_fevd.html">tv_fevd</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
+<p>An impulse response can be inspected directly as data:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">irf</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span></span>
+<span>    <span class="va">impulse</span> <span class="op">==</span> <span class="st">"DAX"</span>,</span>
+<span>    <span class="va">response</span> <span class="op">==</span> <span class="st">"SMI"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;tidyvars IRF&gt;</span></span>
+<span><span class="co">#&gt; Impulses: 1 | Responses: 1 | Horizons: 0-10</span></span>
+<span><span class="co">#&gt; # A tibble: 11 × 6</span></span>
+<span><span class="co">#&gt;    horizon impulse response estimate lower upper</span></span>
+<span><span class="co">#&gt;      &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1       0 DAX     SMI          29.8  26.9  33.0</span></span>
+<span><span class="co">#&gt;  2       1 DAX     SMI          32.7  29.7  36.7</span></span>
+<span><span class="co">#&gt;  3       2 DAX     SMI          32.9  29.7  36.6</span></span>
+<span><span class="co">#&gt;  4       3 DAX     SMI          32.8  29.7  36.3</span></span>
+<span><span class="co">#&gt;  5       4 DAX     SMI          32.8  29.6  36.1</span></span>
+<span><span class="co">#&gt;  6       5 DAX     SMI          32.8  29.6  36.0</span></span>
+<span><span class="co">#&gt;  7       6 DAX     SMI          32.8  29.6  35.9</span></span>
+<span><span class="co">#&gt;  8       7 DAX     SMI          32.7  29.5  35.9</span></span>
+<span><span class="co">#&gt;  9       8 DAX     SMI          32.7  29.5  35.9</span></span>
+<span><span class="co">#&gt; 10       9 DAX     SMI          32.7  29.5  35.9</span></span>
+<span><span class="co">#&gt; 11      10 DAX     SMI          32.6  29.4  35.9</span></span></code></pre></div>
+<p>Each row identifies the horizon, impulse, response, estimate, and confidence interval.</p>
+<p>The same object can be plotted directly:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Fitted Model</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="fu"><a href="reference/tv_augment.html">tv_augment</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="100%"></p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">irf</span>, layout <span class="op">=</span> <span class="st">"wrap"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/theme_tidyvars.html">theme_tidyvars</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/palette_tidyvars.html">palette_tidyvars</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-irf-plot-1.png" alt="" width="100%"></p>
+<p>FEVD results are also returned in tidy form, with one contribution for each horizon, response, and shock:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Visualizes Impulse Response Functions</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="fu"><a href="reference/tv_irf.html">tv_irf</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-6-2.png" width="100%"></p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Displays Forecast Error Variance Decomposition</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="fu"><a href="reference/tv_fevd.html">tv_fevd</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-6-3.png" width="100%"></p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">fevd</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/theme_tidyvars.html">theme_tidyvars</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/palette_tidyvars.html">palette_tidyvars</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-fevd-plot-1.png" alt="" width="100%"></p>
+<p>Conceptually:</p>
+<pre class="text"><code>IRF  → response to a shock through time
+FEVD → contribution of each shock to forecast uncertainty</code></pre>
+<p>Both objects can be filtered, transformed, joined, or plotted using standard tidyverse tools.</p>
+</div>
+<div class="section level2">
+<h2 id="forecasting">Forecasting<a class="anchor" aria-label="anchor" href="#forecasting"></a>
+</h2>
+<p><code><a href="reference/tv_predict.html">tv_predict()</a></code> converts forecasts from <a href="https://www.pfaffikus.de" class="external-link">vars</a> into a single tidy object containing historical observations, point forecasts, and confidence intervals.</p>
+<p>Multiple confidence levels can be requested at once:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Generates visual forecasts</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="fu"><a href="reference/tv_predict.html">tv_predict</a></span><span class="op">(</span><span class="va">mod</span>, n.ahead <span class="op">=</span> <span class="fl">12</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-6-4.png" width="100%"></p>
+<code class="sourceCode R"><span><span class="va">prediction</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tv_predict.html">tv_predict</a></span><span class="op">(</span></span>
+<span>  <span class="va">model</span>,</span>
+<span>  n_ahead <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>  level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.50</span>, <span class="fl">0.75</span>, <span class="fl">0.90</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">prediction</span></span>
+<span><span class="co">#&gt; &lt;tidyvars forecast&gt;</span></span>
+<span><span class="co">#&gt; Variables: 4 | History: 1860 | Forecast: 12</span></span>
+<span><span class="co">#&gt; # A tibble: 7,584 × 8</span></span>
+<span><span class="co">#&gt;    index variable type    level observed estimate lower upper</span></span>
+<span><span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 1991. DAX      history    NA    1629.       NA    NA    NA</span></span>
+<span><span class="co">#&gt;  2 1991. SMI      history    NA    1678.       NA    NA    NA</span></span>
+<span><span class="co">#&gt;  3 1991. CAC      history    NA    1773.       NA    NA    NA</span></span>
+<span><span class="co">#&gt;  4 1991. FTSE     history    NA    2444.       NA    NA    NA</span></span>
+<span><span class="co">#&gt;  5 1992. DAX      history    NA    1614.       NA    NA    NA</span></span>
+<span><span class="co">#&gt;  6 1992. SMI      history    NA    1688.       NA    NA    NA</span></span>
+<span><span class="co">#&gt;  7 1992. CAC      history    NA    1750.       NA    NA    NA</span></span>
+<span><span class="co">#&gt;  8 1992. FTSE     history    NA    2460.       NA    NA    NA</span></span>
+<span><span class="co">#&gt;  9 1992. DAX      history    NA    1607.       NA    NA    NA</span></span>
+<span><span class="co">#&gt; 10 1992. SMI      history    NA    1679.       NA    NA    NA</span></span>
+<span><span class="co">#&gt; # ℹ 7,574 more rows</span></span></code></pre></div>
+<p>The result can be plotted directly:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Zoom in the forecasts (last 3 months)</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="fu"><a href="reference/tv_predict.html">tv_predict</a></span><span class="op">(</span><span class="va">mod</span>, n.ahead <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>, .n_obs <span class="op">=</span> <span class="fl">60</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-6-5.png" width="100%"></p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">prediction</span>, n_history <span class="op">=</span> <span class="fl">30</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/theme_tidyvars.html">theme_tidyvars</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/palette_tidyvars.html">palette_tidyvars</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-forecast-plot-1.png" alt="" width="100%"></p>
+<p><code>n_history</code> controls only how much historical context is displayed. The forecast horizon itself is never truncated.</p>
+<p>As with the other <code>tidyvars</code> objects, the forecast remains available as ordinary tidy data for further manipulation.</p>
+</div>
+<div class="section level2">
+<h2 id="diagnostics">Diagnostics<a class="anchor" aria-label="anchor" href="#diagnostics"></a>
+</h2>
+<p>Common VAR diagnostics are exposed through the same tabular interface:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/tv_causality.html">tv_causality</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;tidyvars causality tests&gt;</span></span>
+<span><span class="co">#&gt; Causes: 4 | Tests: 2</span></span>
+<span><span class="co">#&gt; # A tibble: 8 × 9</span></span>
+<span><span class="co">#&gt;   cause test          statistic    df   df1   df2 boot_runs   p_value method    </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     </span></span>
+<span><span class="co">#&gt; 1 DAX   granger           0.895    NA     6  7396        NA 0.497     Granger c…</span></span>
+<span><span class="co">#&gt; 2 DAX   instantaneous   763.        3    NA    NA        NA 0         H0: No in…</span></span>
+<span><span class="co">#&gt; 3 SMI   granger           4.70     NA     6  7396        NA 0.0000874 Granger c…</span></span>
+<span><span class="co">#&gt; 4 SMI   instantaneous   691.        3    NA    NA        NA 0         H0: No in…</span></span>
+<span><span class="co">#&gt; 5 CAC   granger           3.79     NA     6  7396        NA 0.000899  Granger c…</span></span>
+<span><span class="co">#&gt; 6 CAC   instantaneous   702.        3    NA    NA        NA 0         H0: No in…</span></span>
+<span><span class="co">#&gt; 7 FTSE  granger           3.86     NA     6  7396        NA 0.000750  Granger c…</span></span>
+<span><span class="co">#&gt; 8 FTSE  instantaneous   647.        3    NA    NA        NA 0         H0: No in…</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/tv_normality_test.html">tv_normality_test</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;tidyvars normality tests&gt;</span></span>
+<span><span class="co">#&gt; Scopes: 1 | Tests: 3</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 7</span></span>
+<span><span class="co">#&gt;   scope        variable test        statistic    df p_value method              </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;    &lt;chr&gt;           &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;               </span></span>
+<span><span class="co">#&gt; 1 multivariate &lt;NA&gt;     jarque_bera     9979.     8       0 JB-Test (multivaria…</span></span>
+<span><span class="co">#&gt; 2 multivariate &lt;NA&gt;     skewness         146.     4       0 Skewness only (mult…</span></span>
+<span><span class="co">#&gt; 3 multivariate &lt;NA&gt;     kurtosis        9832.     4       0 Kurtosis only (mult…</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/tv_serial_test.html">tv_serial_test</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;tidyvars serial tests&gt;</span></span>
+<span><span class="co">#&gt; Tests: 1</span></span>
+<span><span class="co">#&gt; # A tibble: 1 × 8</span></span>
+<span><span class="co">#&gt;   test                    lags statistic    df   df1   df2 p_value method       </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                  &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;        </span></span>
+<span><span class="co">#&gt; 1 portmanteau_asymptotic    16      463.   224    NA    NA       0 Portmanteau …</span></span></code></pre></div>
+<p>These functions organize the corresponding results from <a href="https://www.pfaffikus.de" class="external-link">vars</a> rather than reimplementing the underlying statistical tests.</p>
+<p>The returned tables use normalized identifiers and predictable schemas, making diagnostic results easy to filter, compare or include in reports.</p>
+</div>
+<div class="section level2">
+<h2 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a>
+</h2>
+<p><code>tidyvars</code> provides <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot()</a></code> methods for IRFs, FEVDs, and forecasts.</p>
+<p>The plotting methods define the structure of the visualization but do not impose the visual identity of the package.</p>
+<p>A <code>tidyvars</code> plot is still a regular <code>ggplot</code> object:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">irf</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>The optional visual system separates layout from colour:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">irf</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/theme_tidyvars.html">theme_tidyvars</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/palette_tidyvars.html">palette_tidyvars</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre class="text"><code>theme_tidyvars()   → layout and typography
+palette_tidyvars() → colours</code></pre>
+<p><code><a href="reference/theme_tidyvars.html">theme_tidyvars()</a></code> controls structural elements such as typography, spacing, grids, facets, and legends without changing the colours used for the data.</p>
+<p><code><a href="reference/palette_tidyvars.html">palette_tidyvars()</a></code> applies the package colour identity only when explicitly requested.</p>
+<p>Discrete scales are also available independently for ordinary ggplot2 graphics:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/scale_color_tidyvars.html">scale_color_tidyvars</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/scale_color_tidyvars.html">scale_fill_tidyvars</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>This keeps the visual system optional and fully compatible with normal ggplot2 customization.</p>
 </div>
 </div>
+
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
@@ -299,17 +342,16 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Bernardo Reckziegel <br><small class="roles"> Maintainer </small>  </li>
+<li>Bernardo Reckziegel <br><small class="roles"> Maintainer </small>   </li>
 </ul>
 </div>
 
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
 <li><a href="https://github.com/Reckziegel/tidyvars/actions/workflows/R-CMD-check.yaml"><img src="https://github.com/Reckziegel/tidyvars/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://CRAN.R-project.org/package=tidyvars" class="external-link"><img src="https://www.r-pkg.org/badges/version/tidyvars" alt="CRAN status"></a></li>
-<li><a href="https://app.codecov.io/gh/Reckziegel/tidyvars?branch=main" class="external-link"><img src="https://codecov.io/gh/Reckziegel/tidyvars/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://app.codecov.io/gh/Reckziegel/tidyvars" class="external-link"><img src="https://codecov.io/gh/Reckziegel/tidyvars/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://app.codecov.io/gh/Reckziegel/tidyvars" class="external-link"><img src="https://codecov.io/gh/Reckziegel/tidyvars/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 
@@ -322,7 +364,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>
